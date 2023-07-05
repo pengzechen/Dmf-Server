@@ -22,7 +22,9 @@
 
 int main(int arg, char* args[]) {
 
-	start_server();
+	// start_server();
 
+    master_start_multi_process_server();
+    
 	return 0;
 }

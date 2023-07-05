@@ -42,8 +42,8 @@ extern "C" {
 
 extern void* server_make();
 extern void  dmf_server_show_info();
-extern void  start_server();
-extern void  start_multi_threading_server();
+extern void  start_server(int serfd);
+extern void  start_multi_threading_server(int serfd);
 
 
 #ifdef __cplusplus

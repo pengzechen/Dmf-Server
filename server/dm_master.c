@@ -93,7 +93,7 @@ extern void master_start_multi_process_server() {
         pid = fork();
         if (pid == 0) {
 
-			start_server();
+			start_server(serfd);
 
         } else if (pid < 0){
             perror("fork failed!");
@@ -105,7 +105,6 @@ extern void master_start_multi_process_server() {
 
 	master_check_and_restart(serfd);
 
-	return 0;
 }
 
 
@@ -136,7 +135,7 @@ static void master_check_and_restart(int serfd) {
                     exit(1);
                 } else if (pid == 0) {
 
-					start_server();
+					start_server(serfd);
                     
                 } else {
                     // father

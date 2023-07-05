@@ -28,3 +28,9 @@ CMakeFiles/dmfserver.dir/dm_threading_pool.c.o
  dm_threading_pool.h
 CMakeFiles/dmfserver.dir/main.c.o
  /home/pzc/Dmfserver/epoll_test/server/main.c
+ dm_events.h
+ dm_master.h
+ dm_server.h
+ dm_server_config.h
+ dm_socket.h
+ dm_threading_pool.h

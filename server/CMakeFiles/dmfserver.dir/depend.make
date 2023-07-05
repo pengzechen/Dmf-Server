@@ -27,4 +27,10 @@ CMakeFiles/dmfserver.dir/dm_threading_pool.c.o: dm_socket.h
 CMakeFiles/dmfserver.dir/dm_threading_pool.c.o: dm_threading_pool.h
 
 CMakeFiles/dmfserver.dir/main.c.o: main.c
+CMakeFiles/dmfserver.dir/main.c.o: dm_events.h
+CMakeFiles/dmfserver.dir/main.c.o: dm_master.h
+CMakeFiles/dmfserver.dir/main.c.o: dm_server.h
+CMakeFiles/dmfserver.dir/main.c.o: dm_server_config.h
+CMakeFiles/dmfserver.dir/main.c.o: dm_socket.h
+CMakeFiles/dmfserver.dir/main.c.o: dm_threading_pool.h
 

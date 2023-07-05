@@ -91,8 +91,7 @@ void dmf_server_show_info() {
 }
 
 
-void start_server() {
-	int serfd = create_socket( SERVER_PORT );
+void start_server(int serfd) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
@@ -105,8 +104,7 @@ void start_server() {
 }
 
 
-void start_multi_threading_server() {
-	int serfd = create_socket( SERVER_PORT );
+void start_multi_threading_server(int serfd) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
