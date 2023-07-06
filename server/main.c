@@ -22,9 +22,10 @@
 
 int main(int arg, char* args[]) {
 
-	// start_server();
+    int serfd = create_socket( SERVER_PORT );
+	start_server(serfd);
 
-    master_start_multi_process_server();
+    // master_start_multi_process_server();
     
 	return 0;
 }

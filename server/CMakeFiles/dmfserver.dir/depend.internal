@@ -23,6 +23,7 @@ CMakeFiles/dmfserver.dir/dm_server.c.o
  dm_threading_pool.h
 CMakeFiles/dmfserver.dir/dm_socket.c.o
  /home/pzc/Dmfserver/epoll_test/server/dm_socket.c
+ dm_socket.h
 CMakeFiles/dmfserver.dir/dm_threading_pool.c.o
  /home/pzc/Dmfserver/epoll_test/server/dm_threading_pool.c
  dm_events.h

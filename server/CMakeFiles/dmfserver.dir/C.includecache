@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/pzc/Dmfserver/epoll_test/server/dm_master.c
-dm_master.h
--
-
 /home/pzc/Dmfserver/epoll_test/server/dm_server.c
 dm_server.h
 -
