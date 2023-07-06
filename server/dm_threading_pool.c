@@ -28,7 +28,9 @@ void queue_init(queue_t* queue) {
 
 void enqueue(queue_t* queue, task_t task) { 
     node_t* newNode = (node_t*)malloc(sizeof(node_t)); 
-    newNode->task = task; newNode->next = NULL;
+    newNode->task = task; 
+    newNode->next = NULL;
+    
     pthread_mutex_lock(&(queue->mutex)); 
     if (queue->head == NULL) { 
         queue->head = newNode; 

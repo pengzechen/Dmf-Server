@@ -56,7 +56,9 @@ void handle_accept (int serfd, int epoll_fd) {
 			return;
 		}
 		
-		ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
+		ev.events = EPOLLIN | EPOLLET ;
+		// ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
+
 		ev.data.fd = clifd;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
 			perror("epoll_ctl add");

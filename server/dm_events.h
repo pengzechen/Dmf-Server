@@ -28,6 +28,7 @@
 #include <sys/socket.h>
 #include <errno.h>              // errno
 #include <stdlib.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {

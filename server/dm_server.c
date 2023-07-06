@@ -47,6 +47,7 @@ void* server_make(void* arg) {
 	
 	for(;;) {
 		evnum = epoll_wait(epoll_fd, evs, EPOLL_MAX_EVENT_NUM, EPOLL_WAIT_TIMEOUT);
+		// printf("_______%d______\n", getpid());
 		if(evnum == -1){
 			perror("epoll wait");
 			continue;
@@ -59,15 +60,15 @@ void* server_make(void* arg) {
 				
 			} else if( evs[i].data.fd == serfd ) {
 				handle_accept(serfd, epoll_fd);
-				// addTask(threadPool1, serfd, epoll_fd, 1);
+				// add_task(threadPool1, serfd, epoll_fd, 1);
 
 			} else if( evs[i].events & EPOLLIN ) {
 				handle_read(evs[i].data.fd, epoll_fd);
-				// addTask(threadPool1, evs[i].data.fd, epoll_fd, 2);
+				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 2);
 
 			} else if( evs[i].events & EPOLLOUT ) {
 				handle_write(evs[i].data.fd, epoll_fd);
-				// addTask(threadPool1, evs[i].data.fd, epoll_fd, 3);
+				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 3);
 
 			} else {
 				printf("unknow events\n");
@@ -82,8 +83,6 @@ void* server_make(void* arg) {
 void dmf_server_show_info() {
 
 	printf("Dmfserver Moule version:0.0.2\n\n");
-
-
 	printf("|--------SERVER CONFIGURE--------\n");
 	printf("|PORT:%d\n", SERVER_PORT);
 	printf("|MAX_EVENT:%d\n", EPOLL_WAIT_TIMEOUT);
@@ -95,7 +94,7 @@ void start_server(int serfd) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
-	thread_pool_init(&threadPool1, 1);
+	// thread_pool_init(&threadPool1, 2);
 	args.serfd = serfd;
 	args.ptr_thread_pool = &threadPool1;
 

@@ -26,6 +26,6 @@
 
 #define SERVER_DEBUG
 
-#define WORKER_NUM 10
+#define WORKER_NUM 40
 
 #endif  // __DM_SERVER_CONFIG_INCLUDE__

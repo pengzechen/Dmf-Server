@@ -22,7 +22,6 @@
 #include <dm_server_config.h>
 #include <dm_events.h>
 
-
 #include <pthread.h>
 #include <stdlib.h>
 
@@ -58,7 +57,7 @@ extern "C" {
 #endif
 
 
-extern void     queue_init(queue_t* queue) ;
+extern void     queue_init(queue_t* queue);
 extern void     enqueue(queue_t* queue, task_t task);
 extern task_t   dequeue(queue_t* queue);
 
