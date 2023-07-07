@@ -24,6 +24,7 @@
 #include <dm_server_config.h>
 #include <dm_threading_pool.h>
 #include <dm_events.h>
+#include <dm_timer.h>
 
 #define SERVER_PORT 8080
 #define EPOLL_FD_NON_BLOCKING
@@ -40,7 +41,7 @@ struct arg_t {
 extern "C" {
 #endif
 
-extern void* server_make();
+extern void* server_make(void *arg);
 extern void  dmf_server_show_info();
 extern void  start_server(int serfd);
 extern void  start_multi_threading_server(int serfd);

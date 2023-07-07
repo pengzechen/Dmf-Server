@@ -19,6 +19,12 @@
 #include <dm_server.h>
 
 
+/* test function start*/
+static void print_current_time() {
+    time_t current_time = time(NULL);
+    printf("Current time: %s", ctime(&current_time));
+}
+
 void* server_make(void* arg) {
 	
 	struct arg_t args = *(struct arg_t*)arg;
@@ -44,11 +50,13 @@ void* server_make(void* arg) {
 	int tempfd;
 	struct epoll_event tempev;
 
+	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
+	heap->size = 0;
 	
 	for(;;) {
 		evnum = epoll_wait(epoll_fd, evs, EPOLL_MAX_EVENT_NUM, EPOLL_WAIT_TIMEOUT);
 		// printf("_______%d______\n", getpid());
-		if(evnum == -1){
+		if(evnum == -1) {
 			perror("epoll wait");
 			continue;
 		}
@@ -61,6 +69,7 @@ void* server_make(void* arg) {
 			} else if( evs[i].data.fd == serfd ) {
 				handle_accept(serfd, epoll_fd);
 				// add_task(threadPool1, serfd, epoll_fd, 1);
+				add_timer(heap, 10, print_current_time);
 
 			} else if( evs[i].events & EPOLLIN ) {
 				handle_read(evs[i].data.fd, epoll_fd);
@@ -74,9 +83,12 @@ void* server_make(void* arg) {
 				printf("unknow events\n");
 			}
 		}
+
+		handle_events(heap);
 	}
 	close(serfd);
 	close(epoll_fd);
+	free(heap);
 }
 
 
