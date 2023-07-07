@@ -84,7 +84,7 @@ void master_daemonize() {
 
 extern void master_start_multi_process_server() {
 
-	int serfd = create_socket( SERVER_PORT );
+	int serfd = create_socket( SERVER_DEFAULT_PORT );
 // -------------------------------------------------------------
 	pid_t pid;
 
@@ -93,7 +93,7 @@ extern void master_start_multi_process_server() {
         pid = fork();
         if (pid == 0) {
 
-			start_server(serfd);
+			//  -----------------  start_server(serfd);
 
         } else if (pid < 0){
             perror("fork failed!");
@@ -135,7 +135,7 @@ static void master_check_and_restart(int serfd) {
                     exit(1);
                 } else if (pid == 0) {
 
-					start_server(serfd);
+					//   ------------  start_server(serfd);
                     
                 } else {
                     // father

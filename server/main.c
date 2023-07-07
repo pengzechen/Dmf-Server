@@ -44,10 +44,21 @@ int main(int arg, char* args[]) {
     printf("%d\n", *a);
     free(obj);  // attention to double free
 */
+    int fds_num = 4;
 
-    int serfd = create_socket( SERVER_PORT );
-	// start_server(serfd);
-    epoll_ssl_server(serfd);
+    int serfd_http        = create_socket( SERVER_DEFAULT_PORT );
+    int serfd_https       = create_socket( 443 );
+    int serfd_http_proxy  = create_socket( 9000 );
+    int serfd_tcp_proxy   = create_socket( 9090 );
+
+    server_listen_fd_t *fds = (server_listen_fd_t*)malloc(sizeof(server_listen_fd_t) * fds_num);
+    fds[0].fd = serfd_http; fds[0].type = HTTP;
+    fds[1].fd = serfd_https; fds[1].type = HTTPS;
+    fds[2].fd = serfd_http_proxy; fds[2].type = HTTP_PROXY;   // http reverse
+    fds[3].fd = serfd_tcp_proxy; fds[3].type = TCP_PROXY;    // tcp reverse
+
+	start_server(fds, 4);
+    // epoll_ssl_server(serfd);
 
     // master_start_multi_process_server();
     

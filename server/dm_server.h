@@ -26,28 +26,31 @@
 #include <dm_socket.h>        
 #include <dm_events.h>
 #include <dm_timer.h>
+#include <arpa/inet.h>       // inet_ntoa
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <assert.h>
 
-typedef struct fd_ssl_map {
-    int fd;
-    SSL* ssl;
-    struct fd_ssl_map* next;
-} fd_ssl_map ;
 
-
-#define SERVER_PORT 8080
+// #define SERVER_PORT 8080
 #define EPOLL_FD_NON_BLOCKING
 #define EPOLL_MAX_EVENT_NUM 10240
 #define EPOLL_WAIT_TIMEOUT 40
 
 
 struct arg_t {
-	int serfd;
-	thread_pool_t* ptr_thread_pool;
+	server_listen_fd_t    *    listen_fds;
+    int                        fds_num;
+	thread_pool_t         *    ptr_thread_pool;
 };
+
+
+typedef struct fd_ssl_map {
+    int                         fd;
+    SSL*                        ssl;
+    struct fd_ssl_map       *   next;
+} fd_ssl_map ;
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,8 +58,8 @@ extern "C" {
 
 extern void* server_make(void *arg);
 extern void  dmf_server_show_info();
-extern void  start_server(int serfd);
-extern void  start_multi_threading_server(int serfd);
+extern void  start_server(server_listen_fd_t *fds, int num);
+extern void  start_multi_threading_server(server_listen_fd_t *fds, int num);
 extern int   epoll_ssl_server(int serfd); 
 
 #ifdef __cplusplus

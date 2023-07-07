@@ -26,7 +26,7 @@
 #include <stdlib.h>
 
 typedef struct {
-    int num1;
+    void* num1;
     int num2;
     int read_or_write;
 } task_t;
@@ -66,7 +66,7 @@ extern void*    execute_task(void* arg);
 extern void     thread_pool_init(thread_pool_t* threadpool, int num_threads);
 extern void     thread_pool_destroy(thread_pool_t* threadpool);
 
-extern void     add_task(thread_pool_t* threadpool, int num1, int num2, int read_or_wite);
+extern void     add_task(thread_pool_t* threadpool, void* num1, int num2, int read_or_wite);
 
 
 

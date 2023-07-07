@@ -19,17 +19,22 @@
 #include <dm_server.h>
 
 
-/* test function start*/
+/* test timer function start */
 static void print_current_time() {
     time_t current_time = time(NULL);
     printf("Current time: %s", ctime(&current_time));
 }
 
+
+
 void* server_make(void* arg) {
 	
 	struct arg_t args = *(struct arg_t*)arg;
-	int serfd = args.serfd;
+
+	server_listen_fd_t* fds = args.listen_fds;
 	thread_pool_t* threadPool1 = args.ptr_thread_pool;
+	int fds_num = args.fds_num;
+
 
 	int epoll_fd = epoll_create(100);
 	
@@ -42,16 +47,23 @@ void* server_make(void* arg) {
 	}
 #endif // EPOLL_FD_NON_BLOCKING
 
-	ev.events = EPOLLIN | EPOLLET;
-	ev.data.fd = serfd;
-	epoll_ctl(epoll_fd, EPOLL_CTL_ADD, serfd, &ev);
-
+	for(int k=0; k < fds_num; k++) {
+		ev.events = EPOLLIN | EPOLLET;
+		ev.data.fd = fds[k].fd;
+		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fds[k].fd , &ev) == -1) {
+			perror("epoll_ctl error");
+		}
+	}
+	
 	int evnum = 0;
 	int tempfd;
 	struct epoll_event tempev;
 
 	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
 	heap->size = 0;
+
+
+	server_listen_fd_t slf;
 	
 	for(;;) {
 		evnum = epoll_wait(epoll_fd, evs, EPOLL_MAX_EVENT_NUM, EPOLL_WAIT_TIMEOUT);
@@ -63,30 +75,39 @@ void* server_make(void* arg) {
 		for(int i=0; i<evnum; i++) {
 			
 			if ((evs[i].events & EPOLLHUP)||(evs[i].events & EPOLLERR)) {
-				printf("------------------------\n");
-				handle_close(evs[i].data.fd, epoll_fd);
+				// printf("------------------------\n");
+				handle_close(evs[i].data.ptr, epoll_fd);
+			} 
+
+			for(int k=0; k<fds_num; k++) {
+				printf("---------------%d--------------\n", k);
 				
-			} else if( evs[i].data.fd == serfd ) {
-				handle_accept(serfd, epoll_fd);
-				// add_task(threadPool1, serfd, epoll_fd, 1);
-				add_timer(heap, 10, print_current_time);
-
-			} else if( evs[i].events & EPOLLIN ) {
-				handle_read(evs[i].data.fd, epoll_fd);
-				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 2);
-
-			} else if( evs[i].events & EPOLLOUT ) {
-				handle_write(evs[i].data.fd, epoll_fd);
-				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 3);
-
-			} else {
-				printf("unknow events\n");
+				if( evs[i].data.fd == fds[k].fd ) {
+					printf("----------  accept ok %d--------------\n", k);
+					slf = fds[k];
+					handle_accept(&slf, epoll_fd);
+					// add_task(threadPool1, serfd, epoll_fd, 1);
+					// add_timer(heap, 10, print_current_time);
+					break;
+				} else if( evs[i].events & EPOLLIN ) {
+					handle_read(evs[i].data.ptr, epoll_fd);
+					// add_task(threadPool1, evs[i].data.fd, epoll_fd, 2);
+					break;
+				} else if( evs[i].events & EPOLLOUT ) {
+					handle_write(evs[i].data.ptr, epoll_fd);
+					// add_task(threadPool1, evs[i].data.fd, epoll_fd, 3);
+					break;
+				} else {
+					printf("unknow events\n");
+				}
 			}
-		}
 
+		}
 		handle_events(heap);
 	}
-	close(serfd);
+	for(int k=0; k < fds_num - 1; k++) {
+		close(fds[k].fd);
+	}
 	close(epoll_fd);
 	free(heap);
 }
@@ -96,32 +117,33 @@ void dmf_server_show_info() {
 
 	printf("Dmfserver Moule version:0.0.2\n\n");
 	printf("|--------SERVER CONFIGURE--------\n");
-	printf("|PORT:%d\n", SERVER_PORT);
 	printf("|MAX_EVENT:%d\n", EPOLL_WAIT_TIMEOUT);
 
 }
 
 
-void start_server(int serfd) {
+void start_server(server_listen_fd_t *ports, int num) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
 	// thread_pool_init(&threadPool1, 2);
-	args.serfd = serfd;
+	args.listen_fds = ports;
 	args.ptr_thread_pool = &threadPool1;
+	args.fds_num = num;
 
 	server_make((void*)(&args));
 
 }
 
 
-void start_multi_threading_server(int serfd) {
+void start_multi_threading_server(server_listen_fd_t *ports, int num) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
-	thread_pool_init(&threadPool1, 4);
-	args.serfd = serfd;
+	// thread_pool_init(&threadPool1, 2);
+	args.listen_fds = ports;
 	args.ptr_thread_pool = &threadPool1;
+	args.fds_num = num;
 
 	server_make((void*)(&args));
 	for (int k = 0; k < 1; ++k) {
@@ -278,7 +300,7 @@ extern int epoll_ssl_server(int serfd) {
 			}
 
 			if (event.events & EPOLLIN) {
-				char buf[100] = {0};
+				char buf[512] = {0};
 				int readSize = SSL_read(it->ssl, buf, sizeof(buf));
 				if (readSize <= 0) {
 					printf("SSL_read error. %d\n", SSL_get_error(it->ssl, readSize));

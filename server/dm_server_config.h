@@ -22,10 +22,27 @@
 #define __DM_SERVER_CONFIG_INCLUDE__
 
 
-#define SERVER_PORT 8080
+typedef enum _fd_type_s {
+    HTTP = 1, 
+    HTTPS, 
+    HTTP_PROXY,
+    HTTPS_PROXY,
+    TCP_PROXY,
+} fd_type_t;
+
+typedef struct _server_listen_fd_s {
+    int                         fd;
+    fd_type_t                   type;
+} server_listen_fd_t;
+
+
+#define SERVER_DEFAULT_PORT 8080
 
 #define SERVER_DEBUG
 
 #define WORKER_NUM 40
+
+#define SERVER_LINSTEN_PORT_MAX_NUM 10
+
 
 #endif  // __DM_SERVER_CONFIG_INCLUDE__

@@ -65,13 +65,10 @@ void* execute_task(void* arg) {
     task_t task;
     for (;;) {
         task = dequeue(queue);
-        if (task.num1 == -1 && task.num2 == -1) {
+        if (task.num1 == NULL && task.num2 == -1) {
             break;
         }
         switch (task.read_or_write) {
-		case 1:
-			handle_accept (task.num1, task.num2);
-			break;
 		case 2:
 			handle_read (task.num1, task.num2);
 			break;
@@ -103,7 +100,7 @@ void thread_pool_destroy(thread_pool_t* threadPool) {
     int i; 
     threadPool->stop = 1; // 发送停止信号 
     for (i = 0; i < threadPool->num_threads; i++) { 
-        enqueue(&(threadPool->queues[i]), (task_t){-1, -1}); // 发送退出信号 
+        enqueue(&(threadPool->queues[i]), (task_t){NULL, -1}); // 发送退出信号 
         pthread_cond_signal(&(threadPool->queues[i].cond)); // 唤醒等待的线程 
         pthread_join(threadPool->threads[i], NULL); 
         pthread_mutex_destroy(&(threadPool->queues[i].mutex)); 
@@ -114,7 +111,7 @@ void thread_pool_destroy(thread_pool_t* threadPool) {
 }
 
 
-void add_task(thread_pool_t* threadPool, int num1, int num2, int read_or_wite) { 
+void add_task(thread_pool_t* threadPool, void* num1, int num2, int read_or_wite) { 
     task_t task; 
     task.num1 = num1; 
     task.num2 = num2; 
