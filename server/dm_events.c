@@ -45,19 +45,15 @@ static char send_buf[] = "HTTP/1.1 200 OK\r\n\r\nhello"
 void handle_accept (server_listen_fd_t* per_serfd, int epoll_fd) {
 	switch(per_serfd->type) {
 		case HTTP:
-			printf("8080\n");
 			handle_accept_http( per_serfd->fd, epoll_fd );
 			break;
 		case HTTPS:
-			printf("443\n");
 			handle_accept_http( per_serfd->fd, epoll_fd );
 			break;
 		case HTTP_PROXY:
-			printf("9000\n");
 			handle_accept_http( per_serfd->fd, epoll_fd );
 			break;
 		case TCP_PROXY:
-			printf("9090\n");
 			handle_accept_http( per_serfd->fd, epoll_fd );
 			break;
 		default:

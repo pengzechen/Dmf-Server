@@ -38,7 +38,8 @@ void* server_make(void* arg) {
 
 	int epoll_fd = epoll_create(100);
 	
-	struct epoll_event ev;
+	struct epoll_event* ev;
+
     struct epoll_event evs[ EPOLL_MAX_EVENT_NUM ];
 
 #ifdef EPOLL_FD_NON_BLOCKING
@@ -48,12 +49,14 @@ void* server_make(void* arg) {
 #endif // EPOLL_FD_NON_BLOCKING
 
 	for(int k=0; k < fds_num; k++) {
-		ev.events = EPOLLIN | EPOLLET;
-		ev.data.fd = fds[k].fd;
-		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fds[k].fd , &ev) == -1) {
+		ev = (struct epoll_event*)malloc(sizeof(struct epoll_event));
+		ev->events = EPOLLIN | EPOLLET;
+		ev->data.fd = fds[k].fd;
+		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fds[k].fd , ev) == -1) {
 			perror("epoll_ctl error");
 		}
 	}
+	
 	
 	int evnum = 0;
 	int tempfd;
@@ -77,30 +80,27 @@ void* server_make(void* arg) {
 			if ((evs[i].events & EPOLLHUP)||(evs[i].events & EPOLLERR)) {
 				// printf("------------------------\n");
 				handle_close(evs[i].data.ptr, epoll_fd);
+				continue;
 			} 
 
 			for(int k=0; k<fds_num; k++) {
-				printf("---------------%d--------------\n", k);
-				
-				if( evs[i].data.fd == fds[k].fd ) {
-					printf("----------  accept ok %d--------------\n", k);
-					slf = fds[k];
-					handle_accept(&slf, epoll_fd);
-					// add_task(threadPool1, serfd, epoll_fd, 1);
-					// add_timer(heap, 10, print_current_time);
-					break;
-				} else if( evs[i].events & EPOLLIN ) {
-					handle_read(evs[i].data.ptr, epoll_fd);
-					// add_task(threadPool1, evs[i].data.fd, epoll_fd, 2);
-					break;
-				} else if( evs[i].events & EPOLLOUT ) {
-					handle_write(evs[i].data.ptr, epoll_fd);
-					// add_task(threadPool1, evs[i].data.fd, epoll_fd, 3);
-					break;
-				} else {
-					printf("unknow events\n");
-				}
+				if ( evs[i].data.fd == fds[k].fd ) {
+					handle_accept(&fds[k], epoll_fd);
+					goto next;
+				} 
 			}
+			
+			if( evs[i].events & EPOLLIN ) {
+				handle_read(evs[i].data.ptr, epoll_fd);
+				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 2);
+			} else if( evs[i].events & EPOLLOUT ) {
+				handle_write(evs[i].data.ptr, epoll_fd);
+				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 3);
+			} else {
+				printf("unknow events\n");
+			}
+
+			next:;
 
 		}
 		handle_events(heap);
