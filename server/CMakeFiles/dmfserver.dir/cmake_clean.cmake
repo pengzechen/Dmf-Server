@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/dmfserver.dir/dm_server.c.o"
   "CMakeFiles/dmfserver.dir/dm_socket.c.o"
   "CMakeFiles/dmfserver.dir/dm_threading_pool.c.o"
+  "CMakeFiles/dmfserver.dir/dm_timer.c.o"
   "CMakeFiles/dmfserver.dir/main.c.o"
   "dmfserver"
   "dmfserver.pdb"

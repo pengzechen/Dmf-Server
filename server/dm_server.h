@@ -23,8 +23,20 @@
 
 #include <dm_server_config.h>
 #include <dm_threading_pool.h>
+#include <dm_socket.h>        
 #include <dm_events.h>
 #include <dm_timer.h>
+
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <assert.h>
+
+typedef struct fd_ssl_map {
+    int fd;
+    SSL* ssl;
+    struct fd_ssl_map* next;
+} fd_ssl_map ;
+
 
 #define SERVER_PORT 8080
 #define EPOLL_FD_NON_BLOCKING
@@ -45,7 +57,7 @@ extern void* server_make(void *arg);
 extern void  dmf_server_show_info();
 extern void  start_server(int serfd);
 extern void  start_multi_threading_server(int serfd);
-
+extern int   epoll_ssl_server(int serfd); 
 
 #ifdef __cplusplus
 }		/* end of the 'extern "C"' block */

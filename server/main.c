@@ -18,7 +18,6 @@
 
 #include <dm_server.h>
 #include <dm_master.h>
-// #include <dm_timer.h>
 
 #define MYTYPE(x) _Generic((x), \
     int: "int",                 \
@@ -33,14 +32,22 @@ typedef struct test_t {
 } test_t ;
 
 int main(int arg, char* args[]) {
-
-    // test_t ss;
-    // printf("%s \n", MYTYPE(ss));
-    // test_timer();
+/*
+    // type compare
+    test_t ss;
+    printf("%s \n", MYTYPE(ss));
+    // transform force
+    test_t* obj = (test_t*)malloc(sizeof(test_t));
+    obj->a = 1;
+    int* a = (int*)malloc(sizeof(int));
+    a = (int*)obj;
+    printf("%d\n", *a);
+    free(obj);  // attention to double free
+*/
 
     int serfd = create_socket( SERVER_PORT );
-	start_server(serfd);
-    
+	// start_server(serfd);
+    epoll_ssl_server(serfd);
 
     // master_start_multi_process_server();
     

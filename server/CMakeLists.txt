@@ -5,8 +5,11 @@ cmake_minimum_required(VERSION 3.10.0)
 project(DmfServer)
 
 set(CMAKE_SYSTEM_VERSION 1)
+
 find_package(Threads REQUIRED)
-link_libraries(pthread)
+find_package(OpenSSL REQUIRED)
+
+link_libraries(pthread ssl crypto)
 
 file( GLOB main_SRC "*.h" "*.c" )
 include_directories(${PROJECT_SOURCE_DIR})

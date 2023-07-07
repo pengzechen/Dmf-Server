@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/pzc/Dmfserver/epoll_test/server/dm_server.c" "/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/dmfserver.dir/dm_server.c.o"
   "/home/pzc/Dmfserver/epoll_test/server/dm_socket.c" "/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/dmfserver.dir/dm_socket.c.o"
   "/home/pzc/Dmfserver/epoll_test/server/dm_threading_pool.c" "/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/dmfserver.dir/dm_threading_pool.c.o"
+  "/home/pzc/Dmfserver/epoll_test/server/dm_timer.c" "/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/dmfserver.dir/dm_timer.c.o"
   "/home/pzc/Dmfserver/epoll_test/server/main.c" "/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/dmfserver.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

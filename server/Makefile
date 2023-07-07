@@ -258,6 +258,33 @@ dm_threading_pool.c.s:
 	$(MAKE) -f CMakeFiles/dmfserver.dir/build.make CMakeFiles/dmfserver.dir/dm_threading_pool.c.s
 .PHONY : dm_threading_pool.c.s
 
+dm_timer.o: dm_timer.c.o
+
+.PHONY : dm_timer.o
+
+# target to build an object file
+dm_timer.c.o:
+	$(MAKE) -f CMakeFiles/dmfserver.dir/build.make CMakeFiles/dmfserver.dir/dm_timer.c.o
+.PHONY : dm_timer.c.o
+
+dm_timer.i: dm_timer.c.i
+
+.PHONY : dm_timer.i
+
+# target to preprocess a source file
+dm_timer.c.i:
+	$(MAKE) -f CMakeFiles/dmfserver.dir/build.make CMakeFiles/dmfserver.dir/dm_timer.c.i
+.PHONY : dm_timer.c.i
+
+dm_timer.s: dm_timer.c.s
+
+.PHONY : dm_timer.s
+
+# target to generate assembly for a file
+dm_timer.c.s:
+	$(MAKE) -f CMakeFiles/dmfserver.dir/build.make CMakeFiles/dmfserver.dir/dm_timer.c.s
+.PHONY : dm_timer.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -309,6 +336,9 @@ help:
 	@echo "... dm_threading_pool.o"
 	@echo "... dm_threading_pool.i"
 	@echo "... dm_threading_pool.s"
+	@echo "... dm_timer.o"
+	@echo "... dm_timer.i"
+	@echo "... dm_timer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

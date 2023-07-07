@@ -11,7 +11,15 @@
         "errno.h": "c",
         "epoll.h": "c",
         "stdbool.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "dm_server.h": "c",
+        "dm_master.h": "c",
+        "dm_server_config.h": "c",
+        "dm_timer.h": "c",
+        "dm_events.h": "c",
+        "dm_threading_pool.h": "c",
+        "pthread.h": "c",
+        "signal.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "dm_server.h": "c"
+        "dm_server.h": "c",
+        "dm_timer.h": "c"
     }
 }

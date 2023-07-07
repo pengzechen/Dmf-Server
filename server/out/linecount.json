@@ -1,0 +1,341 @@
+{
+    "extension": "linecount",
+    "version": "0.1.7",
+    "workspace": "/home/pzc/Dmfserver/epoll_test/server",
+    "linecount": [
+        {
+            "version": "0.1.7",
+            "counttime": "2023-07-06 21:32:53",
+            "filesum": 52,
+            "codesum": 2937,
+            "commentsum": 572,
+            "blanksum": 893,
+            "filelist": [
+                {
+                    "blank": 7,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "cmake_install.cmake"
+                },
+                {
+                    "blank": 64,
+                    "code": 152,
+                    "comment": 160,
+                    "filename": "CMakeCache.txt"
+                },
+                {
+                    "blank": 16,
+                    "code": 60,
+                    "comment": 0,
+                    "filename": "CMakeFiles/3.16.3/CMakeCCompiler.cmake"
+                },
+                {
+                    "blank": 18,
+                    "code": 70,
+                    "comment": 0,
+                    "filename": "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
+                },
+                {
+                    "filename": "CMakeFiles/3.16.3/CMakeDetermineCompilerABI_C.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "CMakeFiles/3.16.3/CMakeDetermineCompilerABI_CXX.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "CMakeFiles/3.16.3/CMakeSystem.cmake"
+                },
+                {
+                    "filename": "CMakeFiles/3.16.3/CompilerIdC/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 114,
+                    "code": 507,
+                    "comment": 50,
+                    "filename": "CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c"
+                },
+                {
+                    "filename": "CMakeFiles/3.16.3/CompilerIdCXX/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 117,
+                    "code": 491,
+                    "comment": 52,
+                    "filename": "CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "CMakeFiles/cmake.check_cache"
+                },
+                {
+                    "blank": 4,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "CMakeFiles/CMakeDirectoryInformation.cmake"
+                },
+                {
+                    "blank": 11,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "CMakeFiles/CMakeError.log"
+                },
+                {
+                    "blank": 46,
+                    "code": 443,
+                    "comment": 8,
+                    "filename": "CMakeFiles/CMakeOutput.log"
+                },
+                {
+                    "blank": 22,
+                    "code": 35,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/build.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/C.includecache"
+                },
+                {
+                    "blank": 10,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/cmake_clean.cmake"
+                },
+                {
+                    "blank": 1,
+                    "code": 43,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/depend.internal"
+                },
+                {
+                    "blank": 8,
+                    "code": 36,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/depend.make"
+                },
+                {
+                    "blank": 12,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/DependInfo.cmake"
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/dm_events.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/dm_master.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/dm_server.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/dm_socket.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/dm_threading_pool.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/dm_timer.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/flags.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/link.txt"
+                },
+                {
+                    "filename": "CMakeFiles/dmfserver.dir/main.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "CMakeFiles/dmfserver.dir/progress.make"
+                },
+                {
+                    "blank": 39,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "CMakeFiles/Makefile.cmake"
+                },
+                {
+                    "blank": 35,
+                    "code": 71,
+                    "comment": 0,
+                    "filename": "CMakeFiles/Makefile2"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "CMakeFiles/progress.marks"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "CMakeFiles/TargetDirectories.txt"
+                },
+                {
+                    "blank": 4,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "CMakeLists.txt"
+                },
+                {
+                    "blank": 38,
+                    "code": 82,
+                    "comment": 27,
+                    "filename": "dm_events.c"
+                },
+                {
+                    "blank": 11,
+                    "code": 23,
+                    "comment": 22,
+                    "filename": "dm_events.h"
+                },
+                {
+                    "blank": 43,
+                    "code": 83,
+                    "comment": 27,
+                    "filename": "dm_master.c"
+                },
+                {
+                    "blank": 14,
+                    "code": 22,
+                    "comment": 23,
+                    "filename": "dm_master.h"
+                },
+                {
+                    "blank": 29,
+                    "code": 69,
+                    "comment": 23,
+                    "filename": "dm_server.c"
+                },
+                {
+                    "blank": 13,
+                    "code": 24,
+                    "comment": 18,
+                    "filename": "dm_server.h"
+                },
+                {
+                    "blank": 8,
+                    "code": 6,
+                    "comment": 18,
+                    "filename": "dm_server_config.h"
+                },
+                {
+                    "blank": 14,
+                    "code": 40,
+                    "comment": 22,
+                    "filename": "dm_socket.c"
+                },
+                {
+                    "blank": 10,
+                    "code": 17,
+                    "comment": 22,
+                    "filename": "dm_socket.h"
+                },
+                {
+                    "blank": 15,
+                    "code": 93,
+                    "comment": 23,
+                    "filename": "dm_threading_pool.c"
+                },
+                {
+                    "blank": 21,
+                    "code": 41,
+                    "comment": 18,
+                    "filename": "dm_threading_pool.h"
+                },
+                {
+                    "blank": 12,
+                    "code": 56,
+                    "comment": 19,
+                    "filename": "dm_timer.c"
+                },
+                {
+                    "blank": 11,
+                    "code": 28,
+                    "comment": 18,
+                    "filename": "dm_timer.h"
+                },
+                {
+                    "filename": "dmfserver",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 9,
+                    "code": 17,
+                    "comment": 22,
+                    "filename": "main.c"
+                },
+                {
+                    "blank": 107,
+                    "code": 251,
+                    "comment": 0,
+                    "filename": "Makefile"
+                }
+            ]
+        }
+    ]
+}
