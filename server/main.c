@@ -18,12 +18,29 @@
 
 #include <dm_server.h>
 #include <dm_master.h>
+// #include <dm_timer.h>
 
+#define MYTYPE(x) _Generic((x), \
+    int: "int",                 \
+    float: "float",             \
+    double: "double",           \
+    test_t: "test_t"            \
+)
+
+typedef struct test_t {
+    int a;
+    char b;
+} test_t ;
 
 int main(int arg, char* args[]) {
 
+    // test_t ss;
+    // printf("%s \n", MYTYPE(ss));
+    // test_timer();
+
     int serfd = create_socket( SERVER_PORT );
 	start_server(serfd);
+    
 
     // master_start_multi_process_server();
     
