@@ -34,9 +34,9 @@
 
 
 // #define SERVER_PORT 8080
-#define EPOLL_FD_NON_BLOCKING
+// #define EPOLL_FD_NON_BLOCKING
 #define EPOLL_MAX_EVENT_NUM 10240
-#define EPOLL_WAIT_TIMEOUT 40
+#define EPOLL_WAIT_TIMEOUT 40000
 
 
 struct arg_t {

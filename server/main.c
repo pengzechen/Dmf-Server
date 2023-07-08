@@ -57,7 +57,7 @@ int main(int arg, char* args[]) {
     fds[2].fd = serfd_http_proxy; fds[2].type = HTTP_PROXY;   // http reverse
     fds[3].fd = serfd_tcp_proxy; fds[3].type = TCP_PROXY;    // tcp reverse
 
-	start_server(fds, 4);
+	start_server(fds, fds_num);
     // epoll_ssl_server(serfd);
 
     // master_start_multi_process_server();

@@ -66,6 +66,7 @@ void handle_accept_http ( int serfd, int epoll_fd ) {
 	struct sockaddr_in cliaddr;
 	int socklen = sizeof(cliaddr);
 	struct epoll_event ev;
+	
 	per_req_event_t* per_req_cli = (per_req_event_t*)malloc(sizeof(per_req_event_t));
 	per_req_cli->type = HTTP;
 	per_req_cli->ssl = NULL;
@@ -125,10 +126,12 @@ void handle_read (void* per_req, int epoll_fd) {
 		total_read += bytes_read;
 	}
 
-	ev.events = EPOLLOUT | EPOLLET ;
-	ev.data.ptr = per_req;
-	if( epoll_ctl(epoll_fd, EPOLL_CTL_MOD, client_fd, &ev) == -1)
-		perror("epoll_ctl error");
+	// ev.events = EPOLLOUT | EPOLLET ;
+	// ev.data.ptr = per_req;
+	// if( epoll_ctl(epoll_fd, EPOLL_CTL_MOD, client_fd, &ev) == -1)
+	// 	perror("epoll_ctl error");
+
+	handle_write(per_req, epoll_fd);
 
 }
 

@@ -39,6 +39,7 @@ extern "C" {
 
 
 typedef struct _per_req_event_s {
+    
 	int                         fd;
 	fd_type_t 	                type;
 	SSL                   *		ssl;

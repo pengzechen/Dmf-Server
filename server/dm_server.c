@@ -31,14 +31,14 @@ void* server_make(void* arg) {
 	
 	struct arg_t args = *(struct arg_t*)arg;
 
-	server_listen_fd_t* fds = args.listen_fds;
-	thread_pool_t* threadPool1 = args.ptr_thread_pool;
+	server_listen_fd_t* fds			 = args.listen_fds;
+	thread_pool_t* 		threadPool1  = args.ptr_thread_pool;
 	int fds_num = args.fds_num;
 
 
 	int epoll_fd = epoll_create(100);
 	
-	struct epoll_event* ev;
+	struct epoll_event ev;
 
     struct epoll_event evs[ EPOLL_MAX_EVENT_NUM ];
 
@@ -49,10 +49,10 @@ void* server_make(void* arg) {
 #endif // EPOLL_FD_NON_BLOCKING
 
 	for(int k=0; k < fds_num; k++) {
-		ev = (struct epoll_event*)malloc(sizeof(struct epoll_event));
-		ev->events = EPOLLIN | EPOLLET;
-		ev->data.fd = fds[k].fd;
-		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fds[k].fd , ev) == -1) {
+		// ev = (struct epoll_event*)malloc(sizeof(struct epoll_event));
+		ev.events = EPOLLIN | EPOLLET;
+		ev.data.fd = fds[k].fd;
+		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fds[k].fd , &ev) == -1) {
 			perror("epoll_ctl error");
 		}
 	}
@@ -76,12 +76,6 @@ void* server_make(void* arg) {
 			continue;
 		}
 		for(int i=0; i<evnum; i++) {
-			
-			if ((evs[i].events & EPOLLHUP)||(evs[i].events & EPOLLERR)) {
-				// printf("------------------------\n");
-				handle_close(evs[i].data.ptr, epoll_fd);
-				continue;
-			} 
 
 			for(int k=0; k<fds_num; k++) {
 				if ( evs[i].data.fd == fds[k].fd ) {
@@ -91,12 +85,17 @@ void* server_make(void* arg) {
 			}
 			
 			if( evs[i].events & EPOLLIN ) {
+
 				handle_read(evs[i].data.ptr, epoll_fd);
-				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 2);
 			} else if( evs[i].events & EPOLLOUT ) {
+
 				handle_write(evs[i].data.ptr, epoll_fd);
-				// add_task(threadPool1, evs[i].data.fd, epoll_fd, 3);
+			} else if (( evs[i].events & EPOLLHUP) || (evs[i].events & EPOLLERR )) {
+
+				printf("------------------------\n");
+				handle_close(evs[i].data.ptr, epoll_fd);
 			} else {
+				
 				printf("unknow events\n");
 			}
 
