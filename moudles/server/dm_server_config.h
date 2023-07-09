@@ -22,18 +22,13 @@
 #define __DM_SERVER_CONFIG_INCLUDE__
 
 
-typedef enum _fd_type_s {
+typedef enum _lis_type_s {
     HTTP = 1, 
     HTTPS, 
     HTTP_PROXY,
     HTTPS_PROXY,
     TCP_PROXY,
-} fd_type_t;
-
-typedef struct _server_listen_fd_s {
-    int                         fd;
-    fd_type_t                   type;
-} server_listen_fd_t;
+} lis_type_t;
 
 
 #define SERVER_DEFAULT_PORT 8080
@@ -42,7 +37,7 @@ typedef struct _server_listen_fd_s {
 
 #define WORKER_NUM 40
 
-#define SERVER_LINSTEN_PORT_MAX_NUM 10
+#define SERVER_MAX_LISTEN_NUM 10
 
 
 #endif  // __DM_SERVER_CONFIG_INCLUDE__

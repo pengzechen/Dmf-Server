@@ -6,5 +6,5 @@ C_FLAGS =
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/pzc/Dmfserver/epoll_test/server 
+C_INCLUDES = -I/home/pzc/Dmfserver/epoll_test/moudles/server 
 

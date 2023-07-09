@@ -31,9 +31,9 @@ void* server_make(void* arg) {
 	
 	struct arg_t	    args         = *(struct arg_t*)arg;
 
-	int 				serfd		 = args.serfd;
-	thread_pool_t* 		threadPool1  = args.ptr_thread_pool;
-	int 				fds_num      = args.fds_num;
+	lis_inf_t 	  *		lis_infs	 = args.lis_infs;			// listen info array
+	int 				lis_num      = args.lis_num;			// listen info num
+	thread_pool_t * 	threadPool1  = args.ptr_thread_pool;
 
 
 	int epoll_fd = epoll_create(100);
@@ -62,11 +62,14 @@ void* server_make(void* arg) {
 
 	// event.data.fd
 
-	ev.events = EPOLLIN | EPOLLET;
-	ev.data.fd = serfd;
-	if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, serfd, &ev) == -1) {
-		perror("epoll_ctl error");
+	for(int k=0; k<lis_num; k++) {
+		ev.events = EPOLLIN | EPOLLET;
+		ev.data.u32 = k;
+		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, lis_infs[k].fd, &ev) == -1) {
+			perror("epoll_ctl error");
+		}
 	}
+	
 	
 	int evnum = 0;
 	int tempfd;
@@ -88,9 +91,9 @@ void* server_make(void* arg) {
 			tempfd = evs[i].data.fd;
 			tempev = evs[i].events;
 
-			if ( tempfd == serfd ) {
+			if ( tempfd <= lis_num ) {
 
-				handle_accept(serfd, epoll_fd);
+				handle_accept(lis_infs[tempfd].fd, epoll_fd);
 			} else if( tempev & EPOLLIN ) {
 
 				handle_read(tempfd, epoll_fd);
@@ -110,7 +113,8 @@ void* server_make(void* arg) {
 		handle_events(heap);
 	}
 
-	close(serfd);
+	for(int k=0; k<lis_num; k++)
+		close(lis_infs[k].fd);
 	close(epoll_fd);
 	free(heap);
 }
@@ -125,28 +129,28 @@ void dmf_server_show_info() {
 }
 
 
-void start_server(int serfd) {
+void start_server(lis_inf_t *infs, int lis_num) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
 	// thread_pool_init(&threadPool1, 2);
-	args.serfd = serfd;
+	args.lis_infs = infs;
 	args.ptr_thread_pool = &threadPool1;
-	args.fds_num = 1;
+	args.lis_num = lis_num;
 
 	server_make((void*)(&args));
 
 }
 
 
-void start_multi_threading_server(int serfd) {
+void start_multi_threading_server(lis_inf_t *infs, int lis_num) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
 	// thread_pool_init(&threadPool1, 2);
-	args.serfd = serfd;
+	args.lis_infs = infs;
 	args.ptr_thread_pool = &threadPool1;
-	args.fds_num = 1;
+	args.lis_num = lis_num;
 
 	server_make((void*)(&args));
 	for (int k = 0; k < 1; ++k) {

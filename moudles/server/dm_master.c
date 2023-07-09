@@ -94,7 +94,6 @@ extern void master_start_multi_process_server() {
         if (pid == 0) {
 
 			//  -----------------  start_server(serfd);
-            start_server(serfd);
 
         } else if (pid < 0){
             perror("fork failed!");
@@ -137,7 +136,7 @@ static void master_check_and_restart(int serfd) {
                 } else if (pid == 0) {
 
 					//   ------------  start_server(serfd);
-                    start_server(serfd);
+                    
                 } else {
                     // father
                     printf("[warn: ]Worker %d has been down, ", worker[i]);

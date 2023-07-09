@@ -6,21 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/pzc/Dmfserver/epoll_test/server/dm_master.c
-dm_master.h
--
-
-/home/pzc/Dmfserver/epoll_test/server/dm_server.c
-dm_server.h
--
-
-/home/pzc/Dmfserver/epoll_test/server/main.c
-dm_server.h
--
-dm_master.h
--
-
-dm_events.h
+../dm_events.h
 dm_server_config.h
 -
 dm_socket.h
@@ -44,7 +30,7 @@ openssl/ssl.h
 openssl/err.h
 -
 
-dm_master.h
+../dm_master.h
 dm_server_config.h
 -
 dm_server.h
@@ -62,7 +48,7 @@ fcntl.h
 stdbool.h
 -
 
-dm_server.h
+../dm_server.h
 dm_server_config.h
 -
 dm_threading_pool.h
@@ -82,9 +68,9 @@ openssl/err.h
 assert.h
 -
 
-dm_server_config.h
+../dm_server_config.h
 
-dm_socket.h
+../dm_socket.h
 sys/socket.h
 -
 netinet/in.h
@@ -96,7 +82,7 @@ fcntl.h
 stdio.h
 -
 
-dm_threading_pool.h
+../dm_threading_pool.h
 dm_server_config.h
 -
 dm_events.h
@@ -106,7 +92,7 @@ pthread.h
 stdlib.h
 -
 
-dm_timer.h
+../dm_timer.h
 stdio.h
 -
 stdlib.h
@@ -116,5 +102,35 @@ time.h
 stdbool.h
 -
 unistd.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/dm_events.c
+dm_events.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/dm_master.c
+dm_master.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/dm_server.c
+dm_server.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/dm_socket.c
+dm_socket.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/dm_threading_pool.c
+dm_threading_pool.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/dm_timer.c
+dm_timer.h
+-
+
+/home/pzc/Dmfserver/epoll_test/moudles/server/main.c
+dm_server.h
+-
+dm_master.h
 -
 

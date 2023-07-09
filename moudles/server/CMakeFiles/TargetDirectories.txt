@@ -1,3 +1,0 @@
-/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/rebuild_cache.dir
-/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/edit_cache.dir
-/home/pzc/Dmfserver/epoll_test/server/CMakeFiles/dmfserver.dir

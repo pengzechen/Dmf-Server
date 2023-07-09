@@ -39,9 +39,17 @@
 #define EPOLL_WAIT_TIMEOUT 40
 
 
+typedef struct _listen_info_s {
+	char                        ip[64];
+	int                         port;
+	int                         fd;
+	lis_type_t type;
+} lis_inf_t;
+
+
 struct arg_t {
-	int                        serfd;
-    int                        fds_num;
+	lis_inf_t             *    lis_infs;
+    int                        lis_num;
 	thread_pool_t         *    ptr_thread_pool;
 };
 
@@ -58,8 +66,8 @@ extern "C" {
 
 extern void* server_make(void *arg);
 extern void  dmf_server_show_info();
-extern void  start_server(int serfd);
-extern void  start_multi_threading_server(int serfd);
+extern void  start_server(lis_inf_t *infs, int lis_num);
+extern void  start_multi_threading_server(lis_inf_t *infs, int lis_num);
 extern int   epoll_ssl_server(int serfd); 
 
 #ifdef __cplusplus
