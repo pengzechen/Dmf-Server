@@ -1,0 +1,390 @@
+{
+    "extension": "linecount",
+    "version": "0.1.7",
+    "workspace": "/home/pzc/Dmfserver/epoll_test",
+    "linecount": [
+        {
+            "version": "0.1.7",
+            "counttime": "2023-07-08 02:26:01",
+            "filesum": 60,
+            "codesum": 4420,
+            "commentsum": 715,
+            "blanksum": 1264,
+            "filelist": [
+                {
+                    "blank": 72,
+                    "code": 296,
+                    "comment": 18,
+                    "filename": "epoll_server_v0.0.1.c"
+                },
+                {
+                    "blank": 138,
+                    "code": 414,
+                    "comment": 60,
+                    "filename": "epoll_server_v0.0.3.c"
+                },
+                {
+                    "blank": 7,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "server/cmake_install.cmake"
+                },
+                {
+                    "blank": 71,
+                    "code": 204,
+                    "comment": 174,
+                    "filename": "server/CMakeCache.txt"
+                },
+                {
+                    "blank": 16,
+                    "code": 60,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/3.16.3/CMakeCCompiler.cmake"
+                },
+                {
+                    "blank": 18,
+                    "code": 70,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
+                },
+                {
+                    "filename": "server/CMakeFiles/3.16.3/CMakeDetermineCompilerABI_C.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "server/CMakeFiles/3.16.3/CMakeDetermineCompilerABI_CXX.bin",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/3.16.3/CMakeSystem.cmake"
+                },
+                {
+                    "filename": "server/CMakeFiles/3.16.3/CompilerIdC/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 114,
+                    "code": 507,
+                    "comment": 50,
+                    "filename": "server/CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c"
+                },
+                {
+                    "filename": "server/CMakeFiles/3.16.3/CompilerIdCXX/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 117,
+                    "code": 491,
+                    "comment": 52,
+                    "filename": "server/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/cmake.check_cache"
+                },
+                {
+                    "blank": 4,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/CMakeDirectoryInformation.cmake"
+                },
+                {
+                    "blank": 11,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/CMakeError.log"
+                },
+                {
+                    "blank": 46,
+                    "code": 443,
+                    "comment": 8,
+                    "filename": "server/CMakeFiles/CMakeOutput.log"
+                },
+                {
+                    "blank": 22,
+                    "code": 35,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/build.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/C.includecache"
+                },
+                {
+                    "blank": 10,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/cmake_clean.cmake"
+                },
+                {
+                    "blank": 1,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/depend.internal"
+                },
+                {
+                    "blank": 8,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/depend.make"
+                },
+                {
+                    "blank": 12,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/DependInfo.cmake"
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/dm_events.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/dm_master.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/dm_server.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/dm_socket.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/dm_threading_pool.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/dm_timer.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/flags.make"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/link.txt"
+                },
+                {
+                    "filename": "server/CMakeFiles/dmfserver.dir/main.c.o",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/dmfserver.dir/progress.make"
+                },
+                {
+                    "blank": 41,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/Makefile.cmake"
+                },
+                {
+                    "blank": 35,
+                    "code": 71,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/Makefile2"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/progress.marks"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "server/CMakeFiles/TargetDirectories.txt"
+                },
+                {
+                    "blank": 6,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "server/CMakeLists.txt"
+                },
+                {
+                    "blank": 47,
+                    "code": 112,
+                    "comment": 27,
+                    "filename": "server/dm_events.c"
+                },
+                {
+                    "blank": 15,
+                    "code": 32,
+                    "comment": 23,
+                    "filename": "server/dm_events.h"
+                },
+                {
+                    "blank": 43,
+                    "code": 81,
+                    "comment": 29,
+                    "filename": "server/dm_master.c"
+                },
+                {
+                    "blank": 14,
+                    "code": 22,
+                    "comment": 23,
+                    "filename": "server/dm_master.h"
+                },
+                {
+                    "blank": 76,
+                    "code": 247,
+                    "comment": 31,
+                    "filename": "server/dm_server.c"
+                },
+                {
+                    "blank": 16,
+                    "code": 36,
+                    "comment": 20,
+                    "filename": "server/dm_server.h"
+                },
+                {
+                    "blank": 13,
+                    "code": 18,
+                    "comment": 18,
+                    "filename": "server/dm_server_config.h"
+                },
+                {
+                    "blank": 14,
+                    "code": 40,
+                    "comment": 22,
+                    "filename": "server/dm_socket.c"
+                },
+                {
+                    "blank": 10,
+                    "code": 17,
+                    "comment": 22,
+                    "filename": "server/dm_socket.h"
+                },
+                {
+                    "blank": 15,
+                    "code": 90,
+                    "comment": 23,
+                    "filename": "server/dm_threading_pool.c"
+                },
+                {
+                    "blank": 21,
+                    "code": 41,
+                    "comment": 18,
+                    "filename": "server/dm_threading_pool.h"
+                },
+                {
+                    "blank": 12,
+                    "code": 58,
+                    "comment": 18,
+                    "filename": "server/dm_timer.c"
+                },
+                {
+                    "blank": 10,
+                    "code": 29,
+                    "comment": 18,
+                    "filename": "server/dm_timer.h"
+                },
+                {
+                    "filename": "server/dmfserver",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 28,
+                    "comment": 0,
+                    "filename": "server/localhost-key.pem"
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "server/localhost.pem"
+                },
+                {
+                    "blank": 9,
+                    "code": 26,
+                    "comment": 33,
+                    "filename": "server/main.c"
+                },
+                {
+                    "blank": 107,
+                    "code": 251,
+                    "comment": 0,
+                    "filename": "server/Makefile"
+                },
+                {
+                    "filename": "test/a.out",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 42,
+                    "code": 262,
+                    "comment": 23,
+                    "filename": "test/rbtree.c"
+                },
+                {
+                    "blank": 17,
+                    "code": 84,
+                    "comment": 3,
+                    "filename": "test/sem_test.c"
+                },
+                {
+                    "blank": 24,
+                    "code": 69,
+                    "comment": 2,
+                    "filename": "test/shm_test.c"
+                }
+            ]
+        }
+    ]
+}

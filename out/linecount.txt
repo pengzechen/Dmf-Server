@@ -1,0 +1,72 @@
+===============================================================================
+EXTENSION NAME : linecount
+EXTENSION VERSION : 0.1.7
+-------------------------------------------------------------------------------
+count time : 2023-07-08 02:26:01
+count workspace : /home/pzc/Dmfserver/epoll_test
+total files : 60
+total code lines : 4420
+total comment lines : 715
+total blank lines : 1264
+
+epoll_server_v0.0.1.c, code is 296, comment is 18, blank is 72.
+epoll_server_v0.0.3.c, code is 414, comment is 60, blank is 138.
+server/cmake_install.cmake, code is 42, comment is 0, blank is 7.
+server/CMakeCache.txt, code is 204, comment is 174, blank is 71.
+server/CMakeFiles/3.16.3/CMakeCCompiler.cmake, code is 60, comment is 0, blank is 16.
+server/CMakeFiles/3.16.3/CMakeCXXCompiler.cmake, code is 70, comment is 0, blank is 18.
+server/CMakeFiles/3.16.3/CMakeDetermineCompilerABI_C.bin, it is a binary file.
+server/CMakeFiles/3.16.3/CMakeDetermineCompilerABI_CXX.bin, it is a binary file.
+server/CMakeFiles/3.16.3/CMakeSystem.cmake, code is 10, comment is 0, blank is 5.
+server/CMakeFiles/3.16.3/CompilerIdC/a.out, it is a binary file.
+server/CMakeFiles/3.16.3/CompilerIdC/CMakeCCompilerId.c, code is 507, comment is 50, blank is 114.
+server/CMakeFiles/3.16.3/CompilerIdCXX/a.out, it is a binary file.
+server/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp, code is 491, comment is 52, blank is 117.
+server/CMakeFiles/cmake.check_cache, code is 1, comment is 0, blank is 0.
+server/CMakeFiles/CMakeDirectoryInformation.cmake, code is 12, comment is 0, blank is 4.
+server/CMakeFiles/CMakeError.log, code is 45, comment is 0, blank is 11.
+server/CMakeFiles/CMakeOutput.log, code is 443, comment is 8, blank is 46.
+server/CMakeFiles/dmfserver.dir/build.make, code is 35, comment is 0, blank is 22.
+server/CMakeFiles/dmfserver.dir/C.includecache, code is 1, comment is 0, blank is 0.
+server/CMakeFiles/dmfserver.dir/cmake_clean.cmake, code is 6, comment is 0, blank is 10.
+server/CMakeFiles/dmfserver.dir/depend.internal, code is 45, comment is 0, blank is 1.
+server/CMakeFiles/dmfserver.dir/depend.make, code is 38, comment is 0, blank is 8.
+server/CMakeFiles/dmfserver.dir/DependInfo.cmake, code is 15, comment is 0, blank is 12.
+server/CMakeFiles/dmfserver.dir/dm_events.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/dm_master.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/dm_server.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/dm_socket.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/dm_threading_pool.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/dm_timer.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/flags.make, code is 6, comment is 0, blank is 4.
+server/CMakeFiles/dmfserver.dir/link.txt, code is 1, comment is 0, blank is 0.
+server/CMakeFiles/dmfserver.dir/main.c.o, it is a binary file.
+server/CMakeFiles/dmfserver.dir/progress.make, code is 8, comment is 0, blank is 1.
+server/CMakeFiles/Makefile.cmake, code is 16, comment is 0, blank is 41.
+server/CMakeFiles/Makefile2, code is 71, comment is 0, blank is 35.
+server/CMakeFiles/progress.marks, code is 1, comment is 0, blank is 0.
+server/CMakeFiles/TargetDirectories.txt, code is 3, comment is 0, blank is 0.
+server/CMakeLists.txt, code is 11, comment is 0, blank is 6.
+server/dm_events.c, code is 112, comment is 27, blank is 47.
+server/dm_events.h, code is 32, comment is 23, blank is 15.
+server/dm_master.c, code is 81, comment is 29, blank is 43.
+server/dm_master.h, code is 22, comment is 23, blank is 14.
+server/dm_server.c, code is 247, comment is 31, blank is 76.
+server/dm_server.h, code is 36, comment is 20, blank is 16.
+server/dm_server_config.h, code is 18, comment is 18, blank is 13.
+server/dm_socket.c, code is 40, comment is 22, blank is 14.
+server/dm_socket.h, code is 17, comment is 22, blank is 10.
+server/dm_threading_pool.c, code is 90, comment is 23, blank is 15.
+server/dm_threading_pool.h, code is 41, comment is 18, blank is 21.
+server/dm_timer.c, code is 58, comment is 18, blank is 12.
+server/dm_timer.h, code is 29, comment is 18, blank is 10.
+server/dmfserver, it is a binary file.
+server/localhost-key.pem, code is 28, comment is 0, blank is 0.
+server/localhost.pem, code is 25, comment is 0, blank is 0.
+server/main.c, code is 26, comment is 33, blank is 9.
+server/Makefile, code is 251, comment is 0, blank is 107.
+test/a.out, it is a binary file.
+test/rbtree.c, code is 262, comment is 23, blank is 42.
+test/sem_test.c, code is 84, comment is 3, blank is 17.
+test/shm_test.c, code is 69, comment is 2, blank is 24.
+===============================================================================

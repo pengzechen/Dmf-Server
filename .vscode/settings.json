@@ -19,7 +19,8 @@
         "dm_events.h": "c",
         "dm_threading_pool.h": "c",
         "pthread.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "dm_socket.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

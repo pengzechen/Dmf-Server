@@ -41,36 +41,16 @@ static char send_buf[] = "HTTP/1.1 200 OK\r\n\r\nhello"
 #endif // SERVER_DEBUG
 
 
-
-void handle_accept (server_listen_fd_t* per_serfd, int epoll_fd) {
-	switch(per_serfd->type) {
-		case HTTP:
-			handle_accept_http( per_serfd->fd, epoll_fd );
-			break;
-		case HTTPS:
-			handle_accept_http( per_serfd->fd, epoll_fd );
-			break;
-		case HTTP_PROXY:
-			handle_accept_http( per_serfd->fd, epoll_fd );
-			break;
-		case TCP_PROXY:
-			handle_accept_http( per_serfd->fd, epoll_fd );
-			break;
-		default:
-			break;
-	}
-}
-
-void handle_accept_http ( int serfd, int epoll_fd ) {
+void handle_accept ( int serfd, int epoll_fd ) {
 	
 	struct sockaddr_in cliaddr;
 	int socklen = sizeof(cliaddr);
 	struct epoll_event ev;
 	
-	per_req_event_t* per_req_cli = (per_req_event_t*)malloc(sizeof(per_req_event_t));
-	per_req_cli->type = HTTP;
-	per_req_cli->ssl = NULL;
-	per_req_cli->data = NULL;
+	// per_req_event_t* per_req_cli = (per_req_event_t*)malloc(sizeof(per_req_event_t));
+	// per_req_cli->type = HTTP;
+	// per_req_cli->ssl = NULL;
+	// per_req_cli->data = NULL;
 	int clifd;
 	
 	// serfd is nonblocking
@@ -83,9 +63,9 @@ void handle_accept_http ( int serfd, int epoll_fd ) {
 		
 		ev.events = EPOLLIN | EPOLLET ;
 		// ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
-		per_req_cli->fd = clifd;
+		// per_req_cli->fd = clifd;
 
-		ev.data.ptr = (void*)per_req_cli;
+		ev.data.fd = clifd;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
 			perror("epoll_ctl add");
 			close(clifd);
@@ -99,10 +79,9 @@ void handle_accept_http ( int serfd, int epoll_fd ) {
 
 }
 
+void handle_read (int client_fd, int epoll_fd) {
 
-void handle_read (void* per_req, int epoll_fd) {
-	per_req_event_t* per_req_cli = (per_req_event_t*)per_req;
-	int client_fd = per_req_cli->fd;
+	// int client_fd = per_req_cli->fd;
 
 	char read_buf[512] = {0};
 	ssize_t total_read = 0;
@@ -120,24 +99,24 @@ void handle_read (void* per_req, int epoll_fd) {
 				return;
 			}
 		}else if(bytes_read == 0) {		// client close socket
-			handle_close(per_req, epoll_fd);
+			handle_close(client_fd, epoll_fd);
 			return;
 		}
 		total_read += bytes_read;
 	}
 
 	// ev.events = EPOLLOUT | EPOLLET ;
-	// ev.data.ptr = per_req;
+	// ev.data.fd = client_fd;
 	// if( epoll_ctl(epoll_fd, EPOLL_CTL_MOD, client_fd, &ev) == -1)
 	// 	perror("epoll_ctl error");
 
-	handle_write(per_req, epoll_fd);
+	handle_write(client_fd, epoll_fd);
 
 }
 
-void handle_write (void* per_req, int epoll_fd) {
-	per_req_event_t* per_req_cli = (per_req_event_t*)per_req;
-	int client_fd = per_req_cli->fd;
+void handle_write (int client_fd, int epoll_fd) {
+
+	// int client_fd = per_req_cli->fd;
 
 	ssize_t n, nwrite;
 	ssize_t data_size = strlen(send_buf);		//events global val
@@ -156,12 +135,12 @@ void handle_write (void* per_req, int epoll_fd) {
 		n -= nwrite;
 	}
 	
-	handle_close(per_req, epoll_fd);
+	handle_close(client_fd, epoll_fd);
 }
 
-void handle_close (void* per_req, int epoll_fd) {
-	per_req_event_t* per_req_cli = (per_req_event_t*)per_req;
-	int client_fd = per_req_cli->fd;
+void handle_close (int client_fd, int epoll_fd) {
+
+	// int client_fd = per_req_cli->fd;
 
 	if( epoll_ctl(epoll_fd, EPOLL_CTL_DEL, client_fd, NULL) == -1)
 		perror("epoll del error");
@@ -169,8 +148,9 @@ void handle_close (void* per_req, int epoll_fd) {
 	if( close(client_fd) == -1)
 		perror("client close error");
 
-	free(per_req_cli->data);
-	free(per_req_cli->ssl);
+	// free(per_req_cli->data);
+	// free(per_req_cli->ssl);
+	// free(per_req_cli);
 }
 
 

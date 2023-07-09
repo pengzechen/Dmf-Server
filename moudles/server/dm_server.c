@@ -29,17 +29,16 @@ static void print_current_time() {
 
 void* server_make(void* arg) {
 	
-	struct arg_t args = *(struct arg_t*)arg;
+	struct arg_t	    args         = *(struct arg_t*)arg;
 
-	server_listen_fd_t* fds			 = args.listen_fds;
+	int 				serfd		 = args.serfd;
 	thread_pool_t* 		threadPool1  = args.ptr_thread_pool;
-	int fds_num = args.fds_num;
+	int 				fds_num      = args.fds_num;
 
 
 	int epoll_fd = epoll_create(100);
 	
 	struct epoll_event ev;
-
     struct epoll_event evs[ EPOLL_MAX_EVENT_NUM ];
 
 #ifdef EPOLL_FD_NON_BLOCKING
@@ -48,25 +47,33 @@ void* server_make(void* arg) {
 	}
 #endif // EPOLL_FD_NON_BLOCKING
 
-	for(int k=0; k < fds_num; k++) {
-		// ev = (struct epoll_event*)malloc(sizeof(struct epoll_event));
-		ev.events = EPOLLIN | EPOLLET;
-		ev.data.fd = fds[k].fd;
-		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fds[k].fd , &ev) == -1) {
-			perror("epoll_ctl error");
-		}
+	// event.data.ptr
+/*
+	per_req_event_t* per_req_cli = (per_req_event_t*)malloc(sizeof(per_req_event_t));
+	memset(per_req_cli, 0, sizeof(per_req_event_t));
+	per_req_cli->fd = serfd;
+
+	ev.events = EPOLLIN | EPOLLET;
+	ev.data.ptr = (void*)per_req_cli;
+	if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, serfd, &ev) == -1) {
+		perror("epoll_ctl error");
 	}
-	
+*/
+
+	// event.data.fd
+
+	ev.events = EPOLLIN | EPOLLET;
+	ev.data.fd = serfd;
+	if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, serfd, &ev) == -1) {
+		perror("epoll_ctl error");
+	}
 	
 	int evnum = 0;
 	int tempfd;
-	struct epoll_event tempev;
+	uint32_t tempev;
 
 	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
 	heap->size = 0;
-
-
-	server_listen_fd_t slf;
 	
 	for(;;) {
 		evnum = epoll_wait(epoll_fd, evs, EPOLL_MAX_EVENT_NUM, EPOLL_WAIT_TIMEOUT);
@@ -76,37 +83,34 @@ void* server_make(void* arg) {
 			continue;
 		}
 		for(int i=0; i<evnum; i++) {
+			// event.data.ptr
+			// per_req_event_t* per_req_cli = (per_req_event_t*)(evs[i].data.ptr);
+			tempfd = evs[i].data.fd;
+			tempev = evs[i].events;
 
-			for(int k=0; k<fds_num; k++) {
-				if ( evs[i].data.fd == fds[k].fd ) {
-					handle_accept(&fds[k], epoll_fd);
-					goto next;
-				} 
-			}
-			
-			if( evs[i].events & EPOLLIN ) {
+			if ( tempfd == serfd ) {
 
-				handle_read(evs[i].data.ptr, epoll_fd);
-			} else if( evs[i].events & EPOLLOUT ) {
+				handle_accept(serfd, epoll_fd);
+			} else if( tempev & EPOLLIN ) {
 
-				handle_write(evs[i].data.ptr, epoll_fd);
-			} else if (( evs[i].events & EPOLLHUP) || (evs[i].events & EPOLLERR )) {
+				handle_read(tempfd, epoll_fd);
+			} else if( tempev & EPOLLOUT ) {
+
+				handle_write(tempfd, epoll_fd);
+			} else if (( tempev & EPOLLHUP) || 
+					   (tempev & EPOLLERR )) {
 
 				printf("------------------------\n");
-				handle_close(evs[i].data.ptr, epoll_fd);
+				handle_close(tempfd, epoll_fd);
 			} else {
-				
+
 				printf("unknow events\n");
 			}
-
-			next:;
-
 		}
 		handle_events(heap);
 	}
-	for(int k=0; k < fds_num - 1; k++) {
-		close(fds[k].fd);
-	}
+
+	close(serfd);
 	close(epoll_fd);
 	free(heap);
 }
@@ -121,28 +125,28 @@ void dmf_server_show_info() {
 }
 
 
-void start_server(server_listen_fd_t *ports, int num) {
+void start_server(int serfd) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
 	// thread_pool_init(&threadPool1, 2);
-	args.listen_fds = ports;
+	args.serfd = serfd;
 	args.ptr_thread_pool = &threadPool1;
-	args.fds_num = num;
+	args.fds_num = 1;
 
 	server_make((void*)(&args));
 
 }
 
 
-void start_multi_threading_server(server_listen_fd_t *ports, int num) {
+void start_multi_threading_server(int serfd) {
 
 	struct arg_t args;
 	thread_pool_t threadPool1;
 	// thread_pool_init(&threadPool1, 2);
-	args.listen_fds = ports;
+	args.serfd = serfd;
 	args.ptr_thread_pool = &threadPool1;
-	args.fds_num = num;
+	args.fds_num = 1;
 
 	server_make((void*)(&args));
 	for (int k = 0; k < 1; ++k) {

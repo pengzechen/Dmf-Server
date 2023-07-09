@@ -39,6 +39,10 @@ stdlib.h
 -
 string.h
 -
+openssl/ssl.h
+-
+openssl/err.h
+-
 
 dm_master.h
 dm_server_config.h
@@ -68,6 +72,8 @@ dm_socket.h
 dm_events.h
 -
 dm_timer.h
+-
+arpa/inet.h
 -
 openssl/ssl.h
 -

@@ -39,7 +39,7 @@ extern "C" {
 
 
 typedef struct _per_req_event_s {
-    
+
 	int                         fd;
 	fd_type_t 	                type;
 	SSL                   *		ssl;
@@ -47,14 +47,14 @@ typedef struct _per_req_event_s {
 } per_req_event_t;
 
 
-extern void handle_accept (server_listen_fd_t* per_serfd, int epoll_fd);
-void handle_accept_http ( int serfd, int epoll_fd );
+extern void handle_accept (int serfd, int epoll_fd);
+// void handle_accept_http ( int serfd, int epoll_fd );
 
 
-extern void handle_read (void* per_req, int epoll_fd);
-extern void handle_write (void* per_req, int epoll_fd);
+extern void handle_read (int client_fd, int epoll_fd);
+extern void handle_write (int client_fd, int epoll_fd);
 extern void handle_shutdown (int client_fd, int epoll_fd, int how);
-extern void handle_close (void* per_req, int epoll_fd);
+extern void handle_close (int client_fd, int epoll_fd);
 
 
 #ifdef __cplusplus
