@@ -21,7 +21,6 @@
 
 #include <dm_server_config.h>
 #include <dm_socket.h>          // set_nonblocking
-// #include <dm_server.h>
 
 #include <sys/epoll.h>
 #include <unistd.h>             // for close
@@ -32,29 +31,42 @@
 #include <string.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-
+#include <arpa/inet.h>       // inet_ntoa
+// #include <time.h>
+#include <stdbool.h>
+// #include <sys/time.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+extern void events_ssl_init();
 
-typedef struct _per_req_event_s {
-
-	int                         fd;
-	lis_type_t 	                type;
-	SSL                   *		ssl;
-	void                  *     data;
-} per_req_event_t;
-
-
-extern void handle_accept (int serfd, int epoll_fd);
-// void handle_accept_http ( int serfd, int epoll_fd );
+extern void handle_accept (lis_inf_t lis_infs, int epoll_fd);
+extern void handle_read (void*, int client_fd, int epoll_fd);
+extern void handle_write (void* data, int client_fd, int epoll_fd);
+extern void handle_close (void*, int client_fd, int epoll_fd);
+static void handle_shutdown (int client_fd, int epoll_fd, int how);
 
 
-extern void handle_read (int client_fd, int epoll_fd);
-extern void handle_write (int client_fd, int epoll_fd);
-extern void handle_shutdown (int client_fd, int epoll_fd, int how);
-extern void handle_close (int client_fd, int epoll_fd);
+static void event_accept_http ( int serfd, int epoll_fd );
+static void event_accept_http1 ( int serfd, int epoll_fd );
+static void event_accept_https ( int serfd, int epoll_fd );
+static void event_accept_https1 ( int serfd, int epoll_fd );
+
+
+static void event_http_read(void* data, int client_fd, int epoll_fd) ;
+static void event_http_write(void* data, int client_fd, int epoll_fd) ;
+static void event_http_read_write(void* data, int client_fd, int epoll_fd) ;
+
+
+
+static void event_https_read(void* data, int client_fd, int epoll_fd);
+static void event_https_write(void* data, int client_fd, int epoll_fd) ;
+static void handle_https_read_write(void* data, int client_fd, int epoll_fd) ;
+
+
+static void event_http_reverse(void* data, int client_fd, int epoll_fd);
+static void event_https_reverse(void* data, int client_fd, int epoll_fd) ;
 
 
 #ifdef __cplusplus
@@ -63,4 +75,3 @@ extern void handle_close (int client_fd, int epoll_fd);
 
 
 #endif  // __DM_EVENT_INCLUDE__
-

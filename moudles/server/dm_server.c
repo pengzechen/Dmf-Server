@@ -48,23 +48,15 @@ void* server_make(void* arg) {
 #endif // EPOLL_FD_NON_BLOCKING
 
 	// event.data.ptr
-/*
-	per_req_event_t* per_req_cli = (per_req_event_t*)malloc(sizeof(per_req_event_t));
-	memset(per_req_cli, 0, sizeof(per_req_event_t));
-	per_req_cli->fd = serfd;
-
-	ev.events = EPOLLIN | EPOLLET;
-	ev.data.ptr = (void*)per_req_cli;
-	if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, serfd, &ev) == -1) {
-		perror("epoll_ctl error");
-	}
-*/
-
-	// event.data.fd
-
+	
+	req_t* first_req = NULL;
+	
 	for(int k=0; k<lis_num; k++) {
+		first_req = (req_t*)malloc(sizeof(req_t));
+		first_req->fd = k;
+		first_req->data = NULL;
 		ev.events = EPOLLIN | EPOLLET;
-		ev.data.u32 = k;
+		ev.data.ptr = (void*)first_req;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, lis_infs[k].fd, &ev) == -1) {
 			perror("epoll_ctl error");
 		}
@@ -74,6 +66,7 @@ void* server_make(void* arg) {
 	int evnum = 0;
 	int tempfd;
 	uint32_t tempev;
+	req_t* req_data = NULL;
 
 	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
 	heap->size = 0;
@@ -86,27 +79,23 @@ void* server_make(void* arg) {
 			continue;
 		}
 		for(int i=0; i<evnum; i++) {
-			// event.data.ptr
-			// per_req_event_t* per_req_cli = (per_req_event_t*)(evs[i].data.ptr);
-			tempfd = evs[i].data.fd;
+
 			tempev = evs[i].events;
+			req_data = (req_t*)evs[i].data.ptr;
+			tempfd = req_data->fd;
+			
 
 			if ( tempfd <= lis_num ) {
-
-				handle_accept(lis_infs[tempfd].fd, epoll_fd);
+				handle_accept(lis_infs[tempfd], epoll_fd);
 			} else if( tempev & EPOLLIN ) {
-
-				handle_read(tempfd, epoll_fd);
+				handle_read(req_data, tempfd, epoll_fd);
 			} else if( tempev & EPOLLOUT ) {
-
-				handle_write(tempfd, epoll_fd);
+				handle_write(req_data, tempfd, epoll_fd);
 			} else if (( tempev & EPOLLHUP) || 
 					   (tempev & EPOLLERR )) {
-
-				printf("------------------------\n");
-				handle_close(tempfd, epoll_fd);
+				printf("error, handle close\n");
+				handle_close(req_data, tempfd, epoll_fd);
 			} else {
-
 				printf("unknow events\n");
 			}
 		}
@@ -160,7 +149,8 @@ void start_multi_threading_server(lis_inf_t *infs, int lis_num) {
 	}
 }
 
-static SSL_CTX* get_ssl_ctx()
+
+static SSL_CTX* get_ssl_ctx1()
 {
     SSL_CTX *ctx ;
     SSL_library_init();
@@ -186,16 +176,18 @@ static SSL_CTX* get_ssl_ctx()
     return ctx;
 }
 
+
 extern int epoll_ssl_server(int serfd) {
 
 	/*创建ssl上下文*/
-	SSL_CTX *ctx = get_ssl_ctx();
+	SSL_CTX *ctx = get_ssl_ctx1();
 	if(ctx == NULL){
 		return 1;
 	}
 
+
 	printf("ssl load ok\n");
-	
+
 	int efd = epoll_create(100);
 	assert(efd > 0);
 	printf("epoll fd %d\n", efd);
@@ -210,7 +202,6 @@ extern int epoll_ssl_server(int serfd) {
 	fd_ssl_map* fsm_head = (fd_ssl_map*)malloc(sizeof(fd_ssl_map));
 	fsm_head->next = NULL;
 
-	
 	printf("server is listening...\n");
 	static const char *https_response = 
 		"HTTP/1.1 200 OK\r\nServer: httpd\r\nContent-Length: %d\r\nConnection: keep-alive\r\n\r\n";

@@ -69,6 +69,10 @@ assert.h
 -
 
 ../dm_server_config.h
+openssl/ssl.h
+-
+openssl/err.h
+-
 
 ../dm_socket.h
 sys/socket.h
@@ -104,31 +108,31 @@ stdbool.h
 unistd.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/dm_events.c
+/home/pzc/Dmfserver/dmfserver/core/server/dm_events.c
 dm_events.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/dm_master.c
+/home/pzc/Dmfserver/dmfserver/core/server/dm_master.c
 dm_master.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/dm_server.c
+/home/pzc/Dmfserver/dmfserver/core/server/dm_server.c
 dm_server.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/dm_socket.c
+/home/pzc/Dmfserver/dmfserver/core/server/dm_socket.c
 dm_socket.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/dm_threading_pool.c
+/home/pzc/Dmfserver/dmfserver/core/server/dm_threading_pool.c
 dm_threading_pool.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/dm_timer.c
+/home/pzc/Dmfserver/dmfserver/core/server/dm_timer.c
 dm_timer.h
 -
 
-/home/pzc/Dmfserver/epoll_test/moudles/server/main.c
+/home/pzc/Dmfserver/dmfserver/core/server/main.c
 dm_server.h
 -
 dm_master.h

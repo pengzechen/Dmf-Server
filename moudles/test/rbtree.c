@@ -1,3 +1,22 @@
+
+/* 
+    *  Copyright 2023 Ajax
+    *
+    *  Licensed under the Apache License, Version 2.0 (the "License");
+    *  you may not use this file except in compliance with the License.
+    *
+    *  You may obtain a copy of the License at
+    *
+    *    http://www.apache.org/licenses/LICENSE-2.0
+    *    
+    *  Unless required by applicable law or agreed to in writing, software
+    *  distributed under the License is distributed on an "AS IS" BASIS,
+    *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    *  See the License for the specific language governing permissions and
+    *  limitations under the License. 
+    *
+    */
+   
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +30,19 @@ typedef struct Node {
     struct Node *left, *right, *parent;
 } Node;
 
-// 创建新节点
+Node* createNode(int key);
+void leftRotate(Node **root, Node *x);
+void rightRotate(Node **root, Node *y);
+void fixInsert(Node **root, Node *z);
+void insertNode(Node **root, int key);
+void inorderTraversal(Node *root);
+Node* searchNode(Node* root, int key);
+Node* getMinimumNode(Node* node);
+void fixDelete(Node **root, Node *x);
+void deleteNode(Node **root, int key);
+void transplant(Node **root, Node *u, Node *v);
+
+
 Node* createNode(int key) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->key = key;
@@ -20,7 +51,6 @@ Node* createNode(int key) {
     return newNode;
 }
 
-// 左旋操作
 void leftRotate(Node **root, Node *x) {
     Node *y = x->right;
     x->right = y->left;
@@ -41,7 +71,6 @@ void leftRotate(Node **root, Node *x) {
     x->parent = y;
 }
 
-// 右旋操作
 void rightRotate(Node **root, Node *y) {
     Node *x = y->left;
     y->left = x->right;
@@ -62,7 +91,6 @@ void rightRotate(Node **root, Node *y) {
     y->parent = x;
 }
 
-// 插入修正操作
 void fixInsert(Node **root, Node *z) {
     while (z != *root && z->parent->color == RED) {
         if (z->parent == z->parent->parent->left) {
@@ -102,7 +130,6 @@ void fixInsert(Node **root, Node *z) {
     (*root)->color = BLACK;
 }
 
-// 插入节点
 void insertNode(Node **root, int key) {
     Node *z = createNode(key);
     Node *y = NULL;
@@ -131,7 +158,6 @@ void insertNode(Node **root, int key) {
     fixInsert(root, z);
 }
 
-// 中序遍历红黑树
 void inorderTraversal(Node *root) {
     if (root == NULL)
         return;
@@ -141,7 +167,6 @@ void inorderTraversal(Node *root) {
     inorderTraversal(root->right);
 }
 
-// 查找节点
 Node* searchNode(Node* root, int key) {
     if (root == NULL || root->key == key)
         return root;
@@ -152,14 +177,12 @@ Node* searchNode(Node* root, int key) {
         return searchNode(root->right, key);
 }
 
-// 获取树中的最小节点
 Node* getMinimumNode(Node* node) {
     while (node->left != NULL)
         node = node->left;
     return node;
 }
 
-// 删除修正操作
 void fixDelete(Node **root, Node *x) {
     while (x != *root && (x == NULL || x->color == BLACK)) {
         if (x == x->parent->left) {
@@ -222,7 +245,6 @@ void fixDelete(Node **root, Node *x) {
         x->color = BLACK;
 }
 
-// 删除节点
 void deleteNode(Node **root, int key) {
     Node *z = searchNode(*root, key);
     if (z == NULL)
@@ -261,7 +283,6 @@ void deleteNode(Node **root, int key) {
     free(z);
 }
 
-// 辅助函数：替换节点
 void transplant(Node **root, Node *u, Node *v) {
     if (u->parent == NULL)
         *root = v;
@@ -274,8 +295,6 @@ void transplant(Node **root, Node *u, Node *v) {
         v->parent = u->parent;
 }
 
-
-// 测试函数
 void testRedBlackTree() {
     Node *root = NULL;
 
