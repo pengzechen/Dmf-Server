@@ -16,9 +16,13 @@
     *
     */
 
+	
+#define _GNU_SOURCE
 #include <dm_server.h>
 #include <dm_master.h>
-#include <sys/sysinfo.h>
+
+#include <sched.h>
+
 
 #define MYTYPE(x) _Generic((x), \
     int: "int",                 \
@@ -51,10 +55,25 @@ int main(int arg, char* args[]) {
 // printf("sc_nprocessor_conf[%d]\n", sc_nprocessor_conf);
 // printf("sc_nprocessor_onln[%d]\n", sc_nprocessor_onln);
 
-
+    // int a = 0;
+    // cpu_set_t mask;// cpu核的集合
+    // cpu_set_t get;// 获取在集合中的cpu
+    // printf("this is: %d\n",a);// 打印这是第几个线程
+    // CPU_ZERO(&mask);// 将集合置为空集
+    // CPU_SET(a,&mask);// 设置亲和力值
+    
+    // if(sched_setaffinity(0,sizeof(cpu_set_t),&mask)==-1)// 设置线程cpu亲和力
+    // {
+    //     printf("warning: could not set CPU affinity, continuing...\n");
+    // }
 
     int ports_num = 5;
     events_ssl_init();
+
+    struct sigaction sa;
+    sa.sa_handler = SIG_IGN;
+    sigaction(SIGALRM, &sa, 0);
+    sigaction(SIGPIPE, &sa, 0);
 
     int serfd_http        = create_socket( SERVER_DEFAULT_PORT );
     int serfd_https       = create_socket( 443 );
@@ -66,15 +85,15 @@ int main(int arg, char* args[]) {
     fds[0].fd = serfd_http;         fds[0].type = HTTP;
     fds[1].fd = serfd_https;        fds[1].type = HTTPS_PROXY;      // HTTPS
     fds[2].fd = serfd_http_proxy;   fds[2].type = HTTP_PROXY;   // http reverse
-    fds[3].fd = serfd_https_proxy;   fds[3].type = HTTPS_PROXY;   // https reverse
+    fds[3].fd = serfd_https_proxy;  fds[3].type = HTTPS_PROXY;   // https reverse
     fds[4].fd = serfd_tcp_proxy;    fds[4].type = TCP_PROXY;    // tcp reverse
 
 
-	start_server(fds, ports_num);
+	// start_server(fds, ports_num);
 
     // epoll_ssl_server(serfd_https);
 
-    // master_start_multi_process_server(fds, ports_num);
+    master_start_multi_process_server(fds, ports_num);
     
 	return 0;
 }
