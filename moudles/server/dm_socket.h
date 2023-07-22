@@ -31,7 +31,7 @@
 extern "C" {
 #endif
 
-
+extern int  set_nosignal(int);
 extern int  set_non_blocking(int);
 extern int  set_reuse(int);
 extern int  create_socket(int);

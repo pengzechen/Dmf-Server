@@ -36,6 +36,15 @@ int set_reuse(int i_listenfd) {
     return setsockopt(i_listenfd, SOL_SOCKET, SO_REUSEADDR, &out, sizeof(out));
 }
 
+int set_nosignal(int i_listenfd) {
+	int optval=1;
+	#ifdef __linux__ 
+		setsockopt(i_listenfd, SOL_SOCKET, MSG_NOSIGNAL, &optval, sizeof(optval));
+	#else  
+		setsockopt(i_listenfd, SOL_SOCKET, SO_NOSIGPIPE, &optval, sizeof(optval));
+	#endif
+}
+
 int create_socket(int port) {
 
 	int serfd;
@@ -55,6 +64,7 @@ int create_socket(int port) {
 	if( set_non_blocking(serfd) == -1){
 		perror("set_non_blocking error");
 	}
+	
 	if( bind(serfd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
 		perror("bind error");
 	}
