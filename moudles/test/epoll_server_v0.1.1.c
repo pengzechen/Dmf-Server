@@ -15,6 +15,10 @@
     *  limitations under the License. 
     *
     */
+
+   /*
+		version 0.1.1 use epoll_event.ptr
+   */
    
 #include <sys/epoll.h>
 #include <unistd.h>     // for close

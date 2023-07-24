@@ -16,7 +16,7 @@
     *
     */
    /*
-		version 0.0.3 multi_process
+		version 0.2.1 multi_process try accept mutex
    */
    
 #include <sys/epoll.h>
@@ -35,6 +35,9 @@
 #include <signal.h>		// signal()
 #include <sys/wait.h>   // waitpid()
 #include <sys/stat.h>   // umask(0)
+
+#include <stdatomic.h>
+#include <sys/shm.h>
 
 #define MAX_EVENT_NUM 1024
 
@@ -81,12 +84,9 @@ int total_accept_num = 0;
 static int   set_non_blocking(int);
 static int   set_reuse(int);
 
-
 static void  handle_accept(int, int);
 static void  handle_read(int, int);
 static void  handle_write(int, int);
-
-
 
 static int   create_socket(int);
 static void* server_make();
@@ -95,6 +95,15 @@ static void  check_and_restart(int);
 static void  signal_handle(int) ;
 static void  dmf_server_show_info();
 
+typedef struct shm_data_t {
+    atomic_int flag;
+    // char buf[1024];
+} shm_data_t ;
+
+struct arg_t {
+	int serfd;
+	shm_data_t* data;
+};
 
 int set_non_blocking(int fd) {
 
@@ -144,6 +153,7 @@ void handle_accept (int serfd, int epoll_fd) {
 	}
 	// printf("%d %d\n", clifd, total_accept_num ++);
 }
+
 
 void handle_read (int client_fd, int epoll_fd) {
 	char buf[512] = {0};
@@ -245,15 +255,14 @@ int create_socket(int port) {
 	return serfd;
 }
 
-struct arg_t {
-	int serfd;
-};
+
 
 void* server_make(void* arg) {
 	
 	struct arg_t args = *(struct arg_t*)arg;
 
 	int serfd = args.serfd;
+	shm_data_t* data = args.data;
 
 
 	int epoll_fd = epoll_create(100);
@@ -261,9 +270,9 @@ void* server_make(void* arg) {
 	struct epoll_event ev;
     struct epoll_event evs[ MAX_EVENT_NUM ];
 
-	if( set_non_blocking(epoll_fd) == -1) {
-		perror("epoll set non blocking ");
-	}
+	// if( set_non_blocking(epoll_fd) == -1) {
+	// 	perror("epoll set non blocking ");
+	// }
 
 	ev.events = EPOLLIN | EPOLLET;
 	ev.data.fd = serfd;
@@ -275,7 +284,7 @@ void* server_make(void* arg) {
 
 
 	for(;;) {
-		evnum = epoll_wait(epoll_fd, evs, MAX_EVENT_NUM, 10);
+		evnum = epoll_wait(epoll_fd, evs, MAX_EVENT_NUM, 20);
 		// printf("%d\n", evnum);
 		if(evnum == -1){
 			perror("epoll wait");
@@ -284,25 +293,26 @@ void* server_make(void* arg) {
 			
 		for(int i=0; i<evnum; i++) {
 			
-			if ((evs[i].events & EPOLLHUP)||(evs[i].events & EPOLLERR)) {
+			if( evs[i].data.fd == serfd ) {
+				if (data->flag < 10) {
+					data->flag ++;
+					handle_accept(serfd, epoll_fd);
+					data->flag --;
+				} else {	// can't get lock
+					continue;
+				}
+
+			} else if( evs[i].events & EPOLLIN ) {
+				handle_read(evs[i].data.fd, epoll_fd);
+			} else if( evs[i].events & EPOLLOUT ) {
+				handle_write(evs[i].data.fd, epoll_fd);
+			} else if ((evs[i].events & EPOLLHUP)||(evs[i].events & EPOLLERR)) {
 				printf("------------------------\n");
 				if( epoll_ctl(epoll_fd, EPOLL_CTL_DEL, evs[i].data.fd, NULL) != -1){
 					close(evs[i].data.fd);
 				} else {
 					perror("epoll event error");
 				}
-			} else if( evs[i].data.fd == serfd ) {
-				handle_accept(serfd, epoll_fd);
-				// addTask(threadPool1, serfd, epoll_fd, 1);
-
-			} else if( evs[i].events & EPOLLIN ) {
-				handle_read(evs[i].data.fd, epoll_fd);
-				// addTask(threadPool1, evs[i].data.fd, epoll_fd, 2);
-
-			} else if( evs[i].events & EPOLLOUT ) {
-				handle_write(evs[i].data.fd, epoll_fd);
-				// addTask(threadPool1, evs[i].data.fd, epoll_fd, 3);
-
 			} else {
 				printf("unknow events\n");
 			}
@@ -314,34 +324,25 @@ void* server_make(void* arg) {
 }
 
 void daemonize() {
-
     master = fork();
-
     if (master < 0) { 
         perror("fork"); exit(1); 
     } else if (master > 0) {
-
         // father exit
 		printf("%d\n", master);
         exit(0);
     }
-    
     if (setsid() < 0) {
         perror("setsid"); exit(1);
     }
-
     umask(0);
-
     chdir("/");
-
     close(STDIN_FILENO);
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
-
     open("/dev/null", O_RDWR);
     open("/dev/null", O_WRONLY);
     open("/dev/null", O_RDONLY);
-
 }
 
 void check_and_restart(int serfd) {
@@ -384,7 +385,7 @@ void check_and_restart(int serfd) {
                 exit(1);
             }
         }
-        sleep(1);
+        sleep(30);
     }
 }
 
@@ -396,7 +397,6 @@ void signal_handle(int signum) {
             kill(worker[i], SIGTERM);
     }
 }
-
 
 void dmf_server_show_info() {
 
@@ -414,20 +414,11 @@ void dmf_server_show_info() {
 }
 
 
-
 void start_server() {
 	int serfd = create_socket( SERVER_PORT );
-
 	struct arg_t args;
-
 	args.serfd = serfd;
-
 	server_make((void*)(&args));
-	// for (int k = 0; k < 1; ++k) {
-	// 	pthread_t roundCheck;
-	// 	pthread_create(&roundCheck, NULL, server_make, (void*)(&args));
-	// 	pthread_join(roundCheck, NULL);
-	// }
 }
 
 
@@ -440,6 +431,18 @@ int main(int arg, char* args[]) {
     signal(SIGUSR1, signal_handle);
 	// printf("Now daemonize...\n");
 	// daemonize();
+
+	void* shm = NULL;
+    shm_data_t* shared;
+    int shm_fd;
+    shm_fd = shmget((key_t)1324, sizeof(shm_data_t), 0666|IPC_CREAT);
+    if(shm_fd == -1) exit(1);
+    shm = shmat(shm_fd, 0, 0);
+    if(shm == (void*)-1) exit(1);
+    shared = (shm_data_t*)shm;
+
+
+
 	int serfd = create_socket( SERVER_PORT );
 // -------------------------------------------------------------
 	pid_t pid;
@@ -449,17 +452,25 @@ int main(int arg, char* args[]) {
         pid = fork();
         if (pid == 0) {
 
+			void* shm = NULL;
+			shm_data_t* shared;
+			char buffer[1024];
+			int shm_fd;
+
+			shm_fd = shmget((key_t)1324, sizeof(shm_data_t), 0666|IPC_CREAT);
+			if(shm_fd == -1) exit(1);
+			shm = shmat(shm_fd, 0, 0);
+			if(shm == (void*)-1) exit(1);
+			shared = (shm_data_t*)shm;
+			shared->flag = 0;
+
 			struct arg_t args;
-			// initThreadPool(&threadPool1, 1);
 			args.serfd = serfd;
+			args.data = shared;
+
 
 			server_make((void*)(&args));
-			// for (int k = 0; k < 1; ++k) {
-			// 	pthread_t roundCheck;
-			// 	pthread_create(&roundCheck, NULL, server_make, (void*)(&args));
-			// 	pthread_join(roundCheck, NULL);
-			// }
-
+			
         } else if (pid < 0){
             perror("fork failed!");
         } else {
@@ -468,11 +479,8 @@ int main(int arg, char* args[]) {
         }
     }
 
-	// show DMFserver basic confgure
 	dmf_server_show_info();
-
 	check_and_restart(serfd);
-
 	return 0;
 }
 
