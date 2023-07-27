@@ -41,7 +41,7 @@
 
 #define MAX_EVENT_NUM 1024
 
-#define WORKER_NUM 40
+#define WORKER_NUM 30
 
 #define SERVER_PORT 8080
 
@@ -79,12 +79,20 @@ static char send_buf[] = "HTTP/1.1 200 OK\r\n\r\nhello"
 int total_accept_num = 0;
 
 
+typedef struct shm_data_t {
+    atomic_int flag;
+    // char buf[1024];
+} shm_data_t ;
 
+struct arg_t {
+	int serfd;
+	shm_data_t* data;
+};
 
 static int   set_non_blocking(int);
 static int   set_reuse(int);
 
-static void  handle_accept(int, int);
+static void  handle_accept(int, int, shm_data_t*);
 static void  handle_read(int, int);
 static void  handle_write(int, int);
 
@@ -95,15 +103,7 @@ static void  check_and_restart(int);
 static void  signal_handle(int) ;
 static void  dmf_server_show_info();
 
-typedef struct shm_data_t {
-    atomic_int flag;
-    // char buf[1024];
-} shm_data_t ;
 
-struct arg_t {
-	int serfd;
-	shm_data_t* data;
-};
 
 int set_non_blocking(int fd) {
 
@@ -123,13 +123,22 @@ int set_reuse(int i_listenfd) {
 }
 
 
-void handle_accept (int serfd, int epoll_fd) {
+void handle_accept (int serfd, int epoll_fd, shm_data_t* data) {
 	struct sockaddr_in cliaddr;
 	int socklen = sizeof(cliaddr);
 	struct epoll_event ev;
 	int clifd;
 
-	while( (clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen)) > 0) {
+	while(1) {
+
+		// if (data->flag < 30) {
+		// 	data->flag ++;
+			clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen);
+		// 	data->flag --;
+		// } else {	// can't get lock
+		// 	return;
+		// }
+		if (clifd < 0) break; 
 	
 		if(set_non_blocking(clifd) == -1) {
 			perror("set_non_blocking2");
@@ -139,7 +148,7 @@ void handle_accept (int serfd, int epoll_fd) {
 		// epoll_ctl(epoll_fd, EPOLL_CTL_DEL, clifd, NULL);
 		// close(clifd);
 		
-		ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
+		ev.events = EPOLLIN | EPOLLET ;//| EPOLLONESHOT;
 		ev.data.fd = clifd;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
 			perror("epoll_ctl add");
@@ -160,6 +169,8 @@ void handle_read (int client_fd, int epoll_fd) {
 	ssize_t total_read = 0;
 	ssize_t bytes_read;
 	struct epoll_event ev;
+
+	
 
 	while(1) {
 		bytes_read = read(client_fd, buf + total_read, 512 - total_read);
@@ -202,7 +213,7 @@ void handle_write (int client_fd, int epoll_fd) {
 		nwrite = write(client_fd, send_buf + data_size -n, n);
 		if(nwrite < n) {
 			if(nwrite == -1 && errno != EAGAIN) {
-				// perror("write error");
+				perror("write error");
 				// if( epoll_ctl(epoll_fd, EPOLL_CTL_DEL, client_fd, NULL) != -1) {
 				// 	close(client_fd);
 				// } else {
@@ -284,7 +295,7 @@ void* server_make(void* arg) {
 
 
 	for(;;) {
-		evnum = epoll_wait(epoll_fd, evs, MAX_EVENT_NUM, 20);
+		evnum = epoll_wait(epoll_fd, evs, MAX_EVENT_NUM, 20*1000);
 		// printf("%d\n", evnum);
 		if(evnum == -1){
 			perror("epoll wait");
@@ -294,14 +305,7 @@ void* server_make(void* arg) {
 		for(int i=0; i<evnum; i++) {
 			
 			if( evs[i].data.fd == serfd ) {
-				if (data->flag < 10) {
-					data->flag ++;
-					handle_accept(serfd, epoll_fd);
-					data->flag --;
-				} else {	// can't get lock
-					continue;
-				}
-
+				handle_accept(serfd, epoll_fd, data);
 			} else if( evs[i].events & EPOLLIN ) {
 				handle_read(evs[i].data.fd, epoll_fd);
 			} else if( evs[i].events & EPOLLOUT ) {

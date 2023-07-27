@@ -20,7 +20,14 @@
         "dm_threading_pool.h": "c",
         "pthread.h": "c",
         "signal.h": "c",
-        "dm_socket.h": "c"
+        "dm_socket.h": "c",
+        "sysinfo.h": "c",
+        "sched.h": "c",
+        "string.h": "c",
+        "inet.h": "c",
+        "err.h": "c",
+        "ssl.h": "c"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "cmake.sourceDirectory": "/home/pzc/Dmfserver/epoll_test/moudles/server"
 }

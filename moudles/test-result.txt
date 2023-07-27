@@ -1,0 +1,560 @@
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 10000 clients, running 20 sec.
+
+Speed=8331018 pages/min, -63078440 bytes/sec.
+Requests: 2777006 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 11000 clients, running 20 sec.
+
+Speed=8466033 pages/min, -57141076 bytes/sec.
+Requests: 2822011 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 12000 clients, running 20 sec.
+
+Speed=8351889 pages/min, -62160448 bytes/sec.
+Requests: 2783963 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 13000 clients, running 20 sec.
+
+Speed=8174724 pages/min, -69951952 bytes/sec.
+Requests: 2724908 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 14000 clients, running 20 sec.
+
+Speed=6684729 pages/min, 79257192 bytes/sec.
+Requests: 2228243 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 15000 clients, running 20 sec.
+
+Speed=2857998 pages/min, -89051376 bytes/sec.
+Requests: 952666 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 16000 clients, running 20 sec.
+
+Speed=2402952 pages/min, 105683664 bytes/sec.
+Requests: 800983 susceed, 1 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 17000 clients, running 20 sec.
+
+Speed=2331405 pages/min, 102533944 bytes/sec.
+Requests: 777135 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 18000 clients, running 20 sec.
+
+Speed=2812857 pages/min, -91038440 bytes/sec.
+Requests: 937619 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 19000 clients, running 20 sec.
+
+Speed=2610003 pages/min, -99961392 bytes/sec.
+Requests: 870001 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 20000 clients, running 20 sec.
+
+Speed=2398056 pages/min, 105464592 bytes/sec.
+Requests: 799351 susceed, 1 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 21000 clients, running 20 sec.
+
+Speed=2428527 pages/min, 106805224 bytes/sec.
+Requests: 809509 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 22000 clients, running 20 sec.
+
+Speed=2570559 pages/min, -101695304 bytes/sec.
+Requests: 856853 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 23000 clients, running 20 sec.
+
+Speed=2255919 pages/min, 99213768 bytes/sec.
+Requests: 751972 susceed, 1 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 24000 clients, running 20 sec.
+
+Speed=3166644 pages/min, -75478104 bytes/sec.
+Requests: 1055548 susceed, 0 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 25000 clients, running 20 sec.
+
+Speed=2958486 pages/min, -84634320 bytes/sec.
+Requests: 986160 susceed, 2 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 26000 clients, running 20 sec.
+
+Speed=2818464 pages/min, -90792968 bytes/sec.
+Requests: 939487 susceed, 1 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 27000 clients, running 20 sec.
+
+Speed=4265475 pages/min, -27148484 bytes/sec.
+Requests: 1421823 susceed, 2 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 28000 clients, running 20 sec.
+
+Speed=3059556 pages/min, -80186960 bytes/sec.
+Requests: 1019851 susceed, 1 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 29000 clients, running 20 sec.
+
+Speed=4823130 pages/min, -4091818 bytes/sec.
+Requests: 1596571 susceed, 11139 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 30000 clients, running 20 sec.
+
+Speed=3593613 pages/min, -60076832 bytes/sec.
+Requests: 1172277 susceed, 25594 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 31000 clients, running 20 sec.
+
+Speed=4575438 pages/min, -17411964 bytes/sec.
+Requests: 1495629 susceed, 29517 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 32000 clients, running 20 sec.
+
+Speed=7604223 pages/min, -99603504 bytes/sec.
+Requests: 2500254 susceed, 34487 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 33000 clients, running 20 sec.
+
+Speed=3511227 pages/min, -66326732 bytes/sec.
+Requests: 1124949 susceed, 45460 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 34000 clients, running 20 sec.
+
+Speed=6002172 pages/min, 44047280 bytes/sec.
+Requests: 1961429 susceed, 39295 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 35000 clients, running 20 sec.
+
+Speed=8998248 pages/min, -38887000 bytes/sec.
+Requests: 2960392 susceed, 39024 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 36000 clients, running 20 sec.
+
+Speed=8972259 pages/min, -39495740 bytes/sec.
+Requests: 2955767 susceed, 34986 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 37000 clients, running 20 sec.
+
+Speed=8733327 pages/min, -51302680 bytes/sec.
+Requests: 2866302 susceed, 44807 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 38000 clients, running 20 sec.
+
+Speed=9061110 pages/min, -34988024 bytes/sec.
+Requests: 2989933 susceed, 30437 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 39000 clients, running 20 sec.
+
+Speed=8906370 pages/min, -43210312 bytes/sec.
+Requests: 2927637 susceed, 41153 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 40000 clients, running 20 sec.
+
+Speed=8215302 pages/min, -74575344 bytes/sec.
+Requests: 2689926 susceed, 48508 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 41000 clients, running 20 sec.
+
+Speed=5073531 pages/min, 995520 bytes/sec.
+Requests: 1635155 susceed, 56022 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 42000 clients, running 20 sec.
+
+Speed=3749802 pages/min, -66549236 bytes/sec.
+Requests: 1123617 susceed, 126317 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 43000 clients, running 20 sec.
+
+Speed=1910475 pages/min, 72197424 bytes/sec.
+Requests: 547507 susceed, 89318 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 44000 clients, running 20 sec.
+
+Speed=5075982 pages/min, -5297683 bytes/sec.
+Requests: 1587685 susceed, 104309 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 45000 clients, running 20 sec.
+
+Speed=3616473 pages/min, -70434120 bytes/sec.
+Requests: 1094012 susceed, 111479 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 46000 clients, running 20 sec.
+
+Speed=3726804 pages/min, -83170184 bytes/sec.
+Requests: 997503 susceed, 244765 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 47000 clients, running 20 sec.
+
+Speed=4662696 pages/min, -29991274 bytes/sec.
+Requests: 1400485 susceed, 153747 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 48000 clients, running 20 sec.
+
+Speed=3724914 pages/min, -84079880 bytes/sec.
+Requests: 990550 susceed, 251088 failed.
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Request:
+GET / HTTP/1.1
+User-Agent: WebBench 1.5
+Host: localhost
+Connection: close
+
+
+Runing info: 49000 clients, running 20 sec.
+
+Speed=3955815 pages/min, -85441120 bytes/sec.
+Requests: 980227 susceed, 338378 failed.

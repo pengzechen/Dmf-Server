@@ -1,0 +1,11 @@
+
+
+SIGPIPE信号产生的规则：当一个进程向某个已收到RST的套接字执行写操作时，内核向该进程发送SIGPIPE信号。
+如果客户端关闭了socket（close），而服务端调用了一次write，
+服务端就会接收到一个RST Segment，如果服务端再次调用write，这个时候就会产生SIGPIPE信号，默认终止进程
+
+
+strace -e trace=open,read,write <command>
+strace -o output.txt <command>
+
+strace -e trace=accept,read,write,epoll_ctl -o output.txt ./Dmfserver
