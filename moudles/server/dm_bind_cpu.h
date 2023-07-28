@@ -16,22 +16,25 @@
     *
     */
 
-#include <dm_bind_cpu.h>
+#ifndef __DM_BIND_CPU_INCLUDE__
+#define __DM_BIND_CPU_INCLUDE__
 
-static cpu_processer = 0;
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <pthread.h>
 
-void cpu_init() {
-    cpu_processer = sysconf(_SC_NPROCESSORS_CONF);
-}
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-void cpu_bind(int i) {
-    cpu_set_t mask;
-    cpu_set_t get;
-    printf("worker: %d, bind cpu: %d\n", i, i);
-    CPU_ZERO(&mask);
-    CPU_SET(i,&mask);
-    if(sched_setaffinity(0,sizeof(cpu_set_t),&mask) == -1)
-    {
-        printf("warning: could not set CPU affinity, continuing...\n");
-    }
-}
+
+extern void cpu_init();
+extern void cpu_bind(int i);
+
+
+#ifdef __cplusplus
+}		/* end of the 'extern "C"' block */
+#endif
+
+
+#endif  // __DM_BIND_CPU_INCLUDE__

@@ -21,7 +21,7 @@
 
 #include <dm_server_config.h>
 #include <dm_server.h>
-
+#include <dm_bind_cpu.h>
 
 #include <signal.h>		// signal()
 #include <sys/wait.h>   // waitpid()

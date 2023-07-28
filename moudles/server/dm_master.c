@@ -15,7 +15,7 @@
     *  limitations under the License. 
     *
     */
-#define _GNU_SOURCE
+
 #include <dm_master.h>
 
 volatile bool server_running_flag = true;
@@ -90,15 +90,7 @@ extern void master_start_multi_process_server(lis_inf_t *infs, int lis_num) {
         // start worker process
         pid = fork();
         if (pid == 0) {
-            cpu_set_t mask;
-            cpu_set_t get;
-            printf("worker: %d, bind cpu: %d\n", i, i);
-            CPU_ZERO(&mask);
-            CPU_SET(i,&mask);
-            if(sched_setaffinity(0,sizeof(cpu_set_t),&mask) == -1)
-            {
-                printf("warning: could not set CPU affinity, continuing...\n");
-            }
+            cpu_bind(i);
 			start_server(infs, lis_num);
 
         } else if (pid < 0){
