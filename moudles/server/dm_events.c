@@ -19,14 +19,17 @@
 #include <dm_events.h>
 
 #ifdef SERVER_DEBUG
-static char send_buf[] = "HTTP/1.1 200 OK\r\n\r\nhello"
-"<pre>"
-"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789"
-"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789"
-"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789"
-"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789"
-"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789"
-"</pre>";
+static char send_buf[] = "HTTP/1.1 200 OK\r\nContent-type: text/html\r\nContent-length: 629\r\n\r\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
+"qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789";
 static SSL_CTX	* g_ctx 		  = NULL;
 static char 	* https_response  = "HTTP/1.1 200 OK\r\n"
 									"Server: httpd\r\nContent-Length: %d\r\n"
