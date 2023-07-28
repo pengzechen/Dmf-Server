@@ -41,7 +41,7 @@
 
 #define MAX_EVENT_NUM 1024
 
-#define WORKER_NUM 30
+#define WORKER_NUM 5
 
 #define SERVER_PORT 8080
 
@@ -131,10 +131,10 @@ void handle_accept (int serfd, int epoll_fd, shm_data_t* data) {
 
 	while(1) {
 
-		// if (data->flag < 30) {
-		// 	data->flag ++;
+		// if (data->flag ==0) {
+		// 	data->flag =1;
 			clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen);
-		// 	data->flag --;
+		// 	data->flag =0;
 		// } else {	// can't get lock
 		// 	return;
 		// }
@@ -144,9 +144,6 @@ void handle_accept (int serfd, int epoll_fd, shm_data_t* data) {
 			perror("set_non_blocking2");
 			return;
 		}
-
-		// epoll_ctl(epoll_fd, EPOLL_CTL_DEL, clifd, NULL);
-		// close(clifd);
 		
 		ev.events = EPOLLIN | EPOLLET ;//| EPOLLONESHOT;
 		ev.data.fd = clifd;
@@ -404,7 +401,7 @@ void signal_handle(int signum) {
 
 void dmf_server_show_info() {
 
-	printf("Dmfserver Moule version:0.0.2\n\n");
+	printf("Dmfserver Moule version:0.2.1\n\n");
 	printf("--daemon running  PID: %d\n", master);
 
 
