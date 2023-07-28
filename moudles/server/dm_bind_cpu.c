@@ -18,7 +18,7 @@
 
 #include <dm_bind_cpu.h>
 
-static cpu_processer = 0;
+static int cpu_processer = 0;
 
 void cpu_init() {
     cpu_processer = sysconf(_SC_NPROCESSORS_CONF);

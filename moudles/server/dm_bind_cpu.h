@@ -22,6 +22,7 @@
 #define _GNU_SOURCE
 #include <unistd.h>
 #include <pthread.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
