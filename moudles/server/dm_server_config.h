@@ -23,7 +23,7 @@
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-
+#include <dm_shm.h>
 
 typedef enum _lis_type_s {
     HTTP = 1, 
@@ -39,6 +39,7 @@ typedef struct _req_t {
     lis_type_t                  type;
     void                  *     data;
     SSL                   *		ssl;
+    shm_data_t            *     sd;
 } req_t;
 
 

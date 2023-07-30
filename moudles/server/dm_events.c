@@ -19,7 +19,7 @@
 #include <dm_events.h>
 
 #ifdef SERVER_DEBUG
-static char send_buf[] = "HTTP/1.1 200 OK\r\nContent-type: text/html\r\nContent-length: 629\r\n\r\n"
+static char send_buf[] = "HTTP/1.1 404 NotFound\r\nContent-type: text/html\r\nContent-length: 629\r\n\r\n"
 "qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
 "qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
 "qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
@@ -64,11 +64,11 @@ extern void events_ssl_init()
 }
 
 
-void handle_accept (lis_inf_t lis_infs, int epoll_fd ) {
+void handle_accept (lis_inf_t lis_infs, int epoll_fd, shm_data_t* sd) {
 
 	switch(lis_infs.type) {
 		case HTTP:
-			event_accept_http(lis_infs.fd, epoll_fd);
+			event_accept_http(lis_infs.fd, epoll_fd, sd);
 			break;
 		case HTTPS:
 			event_accept_https(lis_infs.fd, epoll_fd);
@@ -133,6 +133,8 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 	if( close(client_fd) == -1)
 		perror("client close error");
 
+	req->sd->close_num ++;
+
 	free(req->data);
 	if(req->ssl != NULL) {
 		SSL_shutdown(req->ssl);
@@ -145,13 +147,21 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 
 
 
-static void event_accept_http ( int serfd, int epoll_fd ) {
+static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 	struct sockaddr_in cliaddr;
 	int socklen = sizeof(cliaddr);
 	struct epoll_event ev;
 	int clifd;
 		// serfd is nonblocking
-	while( (clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen)) > 0) {
+	while(1) {
+		// if(sd->accept_mutex < 40){
+			// sd->accept_mutex ++;
+			clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen);
+			// sd->accept_mutex --;
+		// } else {
+			// return;
+		// }
+		if (clifd <= 0)	break;
 	
 		if(set_non_blocking(clifd) == -1) {
 			perror("set_non_blocking2");
@@ -161,10 +171,13 @@ static void event_accept_http ( int serfd, int epoll_fd ) {
 		ev.events = EPOLLIN | EPOLLET ;
 		// ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
 		
+		
 		req_t* req = (req_t*)malloc(sizeof(req_t)) ;
 		memset(req, 0, sizeof(req_t));
         req->fd = clifd;
 		req->type = HTTP;
+		req->sd = sd;
+		req->sd->accept_num ++;
 
 		ev.data.ptr = (void*)req;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
@@ -343,6 +356,8 @@ static void event_accept_https1 ( int serfd, int epoll_fd ) {
 
 
 static void event_http_read(void* data, int client_fd, int epoll_fd) {
+	req_t* req = (req_t*)data;
+
 	char read_buf[512] = {0};
 	ssize_t total_read = 0;
 	ssize_t bytes_read;
@@ -355,7 +370,12 @@ static void event_http_read(void* data, int client_fd, int epoll_fd) {
 			if(errno == EAGAIN || errno == EWOULDBLOCK) {
 				break;
 			}else{
-				perror("unknow read error");
+				if(errno == ECONNRESET) {	// connection reset by peer
+					perror("peer reset");
+					handle_close(data, client_fd, epoll_fd);
+				} else {
+					perror("unknow read error");
+				}
 				return;
 			}
 		}else if(bytes_read == 0) {		// client close socket
@@ -363,6 +383,12 @@ static void event_http_read(void* data, int client_fd, int epoll_fd) {
 			return;
 		}
 		total_read += bytes_read;
+	}
+	req->sd->read_num ++;
+	
+	if(strcmp(read_buf, "debug\n") == 0) {
+		printf("--Accept: %d\n--Read: %d\n--Write: %d\n--Close: %d\n", 
+			req->sd->accept_num-1, req->sd->read_num-1, req->sd->write_num, req->sd->close_num);
 	}
 
 	ev.events = EPOLLOUT | EPOLLET ;
@@ -374,6 +400,7 @@ static void event_http_read(void* data, int client_fd, int epoll_fd) {
 }
 
 static void event_http_write(void* data, int client_fd, int epoll_fd) {
+	req_t* req = (req_t*)data;
 
 	ssize_t n, nwrite;
 	ssize_t data_size = strlen(send_buf);		//events global val
@@ -384,13 +411,25 @@ static void event_http_write(void* data, int client_fd, int epoll_fd) {
 		nwrite = write(client_fd, send_buf + data_size -n, n);
 		if(nwrite < n) {
 			if(nwrite == -1 && errno != EAGAIN) {
-				perror("unknow write error");
+				if(errno == EPIPE) {
+					perror("peer closed");
+
+					//epoll will do this automatically
+					// if( epoll_ctl(epoll_fd, EPOLL_CTL_DEL, client_fd, NULL) == -1)
+					// 	perror("epoll del error");
+					// if( close(client_fd) == -1)
+					// 	perror("client close error");
+
+				} else {
+					perror("unknow write error");
+				}
 				return;
 			}
 			break;
 		}
 		n -= nwrite;
 	}
+	req->sd->write_num ++;
 }
 
 static void event_http_read_write(void* data, int client_fd, int epoll_fd) {

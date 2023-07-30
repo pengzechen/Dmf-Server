@@ -26,7 +26,6 @@ static void print_current_time() {
 }
 
 
-
 void* server_make(void* arg) {
 	
 	struct arg_t	    args         = *(struct arg_t*)arg;
@@ -45,7 +44,7 @@ void* server_make(void* arg) {
 	if( set_non_blocking(epoll_fd) == -1) {
 		perror("epoll set non blocking ");
 	}
-#endif // EPOLL_FD_NON_BLOCKING
+#endif // EPOLL_FD_NON_shm_data_t* sd = create_get_shm(1234);BLOCKING
 
 	// event.data.ptr
 	
@@ -70,6 +69,7 @@ void* server_make(void* arg) {
 
 	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
 	heap->size = 0;
+	shm_data_t* sd = create_get_shm(66666);
 	
 	for(;;) {
 		evnum = epoll_wait(epoll_fd, evs, EPOLL_MAX_EVENT_NUM, EPOLL_WAIT_TIMEOUT);
@@ -86,7 +86,7 @@ void* server_make(void* arg) {
 			
 
 			if ( tempfd <= lis_num ) {
-				handle_accept(lis_infs[tempfd], epoll_fd);
+				handle_accept(lis_infs[tempfd], epoll_fd, sd);
 			} else if( tempev & EPOLLIN ) {
 				handle_read(req_data, tempfd, epoll_fd);
 			} else if( tempev & EPOLLOUT ) {

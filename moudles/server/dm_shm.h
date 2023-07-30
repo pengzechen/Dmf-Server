@@ -24,8 +24,11 @@
 #include <stdio.h>              //perror
 
 typedef struct shm_data_t {
-    atomic_int is_readable;
+    atomic_int accept_mutex;
     _Atomic int accept_num;
+    _Atomic int read_num;
+    _Atomic int write_num;
+    _Atomic int close_num;
 } shm_data_t ;
 
 

@@ -21,6 +21,7 @@
 
 #include <dm_server_config.h>
 #include <dm_socket.h>          // set_nonblocking
+#include <dm_shm.h>
 
 #include <sys/epoll.h>
 #include <unistd.h>             // for close
@@ -41,14 +42,14 @@ extern "C" {
 
 extern void events_ssl_init();
 
-extern void handle_accept (lis_inf_t lis_infs, int epoll_fd);
+extern void handle_accept (lis_inf_t lis_infs, int epoll_fd, shm_data_t* sd);
 extern void handle_read (void*, int client_fd, int epoll_fd);
 extern void handle_write (void* data, int client_fd, int epoll_fd);
 extern void handle_close (void*, int client_fd, int epoll_fd);
 static void handle_shutdown (int client_fd, int epoll_fd, int how);
 
 
-static void event_accept_http ( int serfd, int epoll_fd );
+static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd );
 static void event_accept_http1 ( int serfd, int epoll_fd );
 static void event_accept_https ( int serfd, int epoll_fd );
 static void event_accept_https1 ( int serfd, int epoll_fd );

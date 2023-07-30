@@ -22,7 +22,7 @@
 #include <dm_master.h>
 
 #include <sched.h>
-
+#include <dm_shm.h>
 
 #define MYTYPE(x) _Generic((x), \
     int: "int",                 \
@@ -67,7 +67,7 @@ int main(int arg, char* args[]) {
     //     printf("warning: could not set CPU affinity, continuing...\n");
     // }
 
-    int ports_num = 5;
+    
     events_ssl_init();
 
     struct sigaction sa;
@@ -80,8 +80,9 @@ int main(int arg, char* args[]) {
     int serfd_http_proxy  = create_socket( 9000 );
     int serfd_https_proxy = create_socket( 8443 );
     int serfd_tcp_proxy   = create_socket( 9090 );
-
+    int ports_num = 5;
     lis_inf_t *fds = (lis_inf_t*)malloc(sizeof(lis_inf_t) * ports_num);
+    
     fds[0].fd = serfd_http;         fds[0].type = HTTP;
     fds[1].fd = serfd_https;        fds[1].type = HTTPS_PROXY;      // HTTPS
     fds[2].fd = serfd_http_proxy;   fds[2].type = HTTP_PROXY;   // http reverse
@@ -92,7 +93,13 @@ int main(int arg, char* args[]) {
 	// start_server(fds, ports_num);
 
     // epoll_ssl_server(serfd_https);
-
+    shm_data_t* sd = create_get_shm(66666);
+    sd->accept_mutex = 0;
+    sd->accept_num = 0;
+    sd->read_num = 0;
+    sd->close_num = 0;
+    sd->write_num = 0;
+    
     master_start_multi_process_server(fds, ports_num);
     
 	return 0;
