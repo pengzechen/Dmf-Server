@@ -300,11 +300,11 @@ void testRedBlackTree() {
 
     // 插入节点
     insertNode(&root, 7);
-    insertNode(&root, 3);
+    insertNode(&root, 7);
     insertNode(&root, 18);
     insertNode(&root, 10);
     insertNode(&root, 22);
-    insertNode(&root, 8);
+    insertNode(&root, 22);
     insertNode(&root, 11);
     insertNode(&root, 26);
 
@@ -323,6 +323,11 @@ void testRedBlackTree() {
 
     // 删除节点
     int keyToDelete = 18;
+    deleteNode(&root, keyToDelete);
+    printf("delete %d\n", keyToDelete);
+    
+    // 删除节点
+    keyToDelete = 7;
     deleteNode(&root, keyToDelete);
     printf("delete %d\n", keyToDelete);
 

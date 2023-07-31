@@ -26,7 +26,11 @@
         "string.h": "c",
         "inet.h": "c",
         "err.h": "c",
-        "ssl.h": "c"
+        "ssl.h": "c",
+        "x509.h": "c",
+        "dm_bind_cpu.h": "c",
+        "typeinfo": "c",
+        "dm_shm.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "cmake.sourceDirectory": "/home/pzc/Dmfserver/epoll_test/moudles/server"

@@ -33,7 +33,7 @@ typedef struct timer_event_t {
 } timer_event_t;
 
 typedef struct timer_min_heap_t {
-    timer_event_t *events[10240];
+    timer_event_t *events[ TIMER_EVENT_MAX_NUM ];
     int size;
 } timer_min_heap_t;
 
