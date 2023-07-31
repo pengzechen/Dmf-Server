@@ -1,4 +1,4 @@
-/* 
+/*
     *  Copyright 2023 Ajax
     *
     *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -7,12 +7,12 @@
     *  You may obtain a copy of the License at
     *
     *    http://www.apache.org/licenses/LICENSE-2.0
-    *    
+    *
     *  Unless required by applicable law or agreed to in writing, software
     *  distributed under the License is distributed on an "AS IS" BASIS,
     *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     *  See the License for the specific language governing permissions and
-    *  limitations under the License. 
+    *  limitations under the License.
     *
     */
 
@@ -27,7 +27,7 @@ static void print_current_time() {
 
 
 void* server_make(void* arg) {
-	
+
 	struct arg_t	    args         = *(struct arg_t*)arg;
 
 	lis_inf_t 	  *		lis_infs	 = args.lis_infs;			// listen info array
@@ -36,7 +36,7 @@ void* server_make(void* arg) {
 
 
 	int epoll_fd = epoll_create(100);
-	
+
 	struct epoll_event ev;
     struct epoll_event evs[ EPOLL_MAX_EVENT_NUM ];
 
@@ -47,9 +47,9 @@ void* server_make(void* arg) {
 #endif // EPOLL_FD_NON_shm_data_t* sd = create_get_shm(1234);BLOCKING
 
 	// event.data.ptr
-	
+
 	req_t* first_req = NULL;
-	
+
 	for(int k=0; k<lis_num; k++) {
 		first_req = (req_t*)malloc(sizeof(req_t));
 		first_req->fd = k;
@@ -60,8 +60,8 @@ void* server_make(void* arg) {
 			perror("epoll_ctl error");
 		}
 	}
-	
-	
+
+
 	int evnum = 0;
 	int tempfd;
 	uint32_t tempev;
@@ -70,7 +70,7 @@ void* server_make(void* arg) {
 	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
 	heap->size = 0;
 	shm_data_t* sd = create_get_shm(66666);
-	
+
 	for(;;) {
 		evnum = epoll_wait(epoll_fd, evs, EPOLL_MAX_EVENT_NUM, EPOLL_WAIT_TIMEOUT);
 		// printf("_______%d______\n", getpid());
@@ -83,7 +83,7 @@ void* server_make(void* arg) {
 			tempev = evs[i].events;
 			req_data = (req_t*)evs[i].data.ptr;
 			tempfd = req_data->fd;
-			
+
 
 			if ( tempfd <= lis_num ) {
 				handle_accept(lis_infs[tempfd], epoll_fd, sd);
@@ -91,7 +91,7 @@ void* server_make(void* arg) {
 				handle_read(req_data, tempfd, epoll_fd);
 			} else if( tempev & EPOLLOUT ) {
 				handle_write(req_data, tempfd, epoll_fd);
-			} else if(( tempev & EPOLLHUP) || 
+			} else if(( tempev & EPOLLHUP) ||
 					   (tempev & EPOLLERR )) {
 				printf("error, handle close\n");
 				handle_close(req_data, tempfd, epoll_fd);
@@ -203,7 +203,7 @@ extern int epoll_ssl_server(int serfd) {
 	fsm_head->next = NULL;
 
 	printf("server is listening...\n");
-	static const char *https_response = 
+	static const char *https_response =
 		"HTTP/1.1 200 OK\r\nServer: httpd\r\nContent-Length: %d\r\nConnection: keep-alive\r\n\r\n";
 
 	while (true) {
@@ -256,7 +256,7 @@ extern int epoll_ssl_server(int serfd) {
 					ev.data.fd = cfd;
 					ev.events = EPOLLET | EPOLLIN;
 					epoll_ctl(efd, EPOLL_CTL_ADD, cfd, &ev);
-					
+
 					fd_ssl_map* per = (fd_ssl_map*)malloc(sizeof(fd_ssl_map));
 					per->fd = cfd; per->ssl = ssl; per->next = NULL;
 					if(fsm_head->next == NULL)
@@ -287,7 +287,7 @@ extern int epoll_ssl_server(int serfd) {
 				close(event.data.fd);
 				SSL_shutdown(it->ssl);
 				SSL_free(it->ssl);
-				
+
 				if(it->next == NULL)
 					pre->next = NULL;
 				pre->next = it->next;
@@ -329,7 +329,7 @@ extern int epoll_ssl_server(int serfd) {
 		close(it->fd);
 		SSL_free(it->ssl);
 	}
-	
+
 
 	SSL_CTX_free(ctx);
 	close(serfd);
