@@ -67,8 +67,7 @@ void* server_make(void* arg) {
 	uint32_t tempev;
 	req_t* req_data = NULL;
 
-	timer_min_heap_t* heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
-	heap->size = 0;
+	timer_init();
 	shm_data_t* sd = create_get_shm(66666);
 
 	for(;;) {
@@ -99,13 +98,12 @@ void* server_make(void* arg) {
 				printf("unknow events\n");
 			}
 		}
-		handle_events(heap);
+		handle_events();	// handle timer events
 	}
 
 	for(int k=0; k<lis_num; k++)
 		close(lis_infs[k].fd);
 	close(epoll_fd);
-	free(heap);
 }
 
 
