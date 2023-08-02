@@ -24,6 +24,7 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <dm_shm.h>
+#include <dm_timer.h>
 
 typedef enum _lis_type_s {
     HTTP = 1, 
@@ -40,6 +41,7 @@ typedef struct _req_t {
     void                  *     data;
     SSL                   *		ssl;
     shm_data_t            *     sd;
+    timer_event_t         *     timer_event;
 } req_t;
 
 

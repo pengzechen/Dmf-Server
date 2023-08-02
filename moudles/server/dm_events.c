@@ -133,6 +133,7 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 	if( close(client_fd) == -1)
 		perror("client close error");
 
+	req->timer_event->flag = 1;
 	req->sd->close_num ++;
 
 	free(req->data);
@@ -144,8 +145,15 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 	free(req);
 	
 }
+static int ss_time;
 
-
+/* test function start*/
+static void print_current_time() {
+    time_t current_time = time(NULL);
+    // printf("Current time: %s", ctime(&current_time));
+	// printf("%d\n", ss_time++);
+	ss_time++;
+}
 
 static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 	struct sockaddr_in cliaddr;
@@ -178,6 +186,9 @@ static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 		req->type = HTTP;
 		req->sd = sd;
 		req->sd->accept_num ++;
+		req->timer_event = (timer_event_t *)malloc(sizeof(timer_event_t));		// timer free 
+		add_timer(60, print_current_time, req->timer_event);
+
 
 		ev.data.ptr = (void*)req;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
