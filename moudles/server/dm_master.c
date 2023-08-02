@@ -109,7 +109,7 @@ static void master_check_and_restart(lis_inf_t *infs, int lis_num) {
     sleep(1);
     for(int i=0; i < WORKER_NUM; i++)
 		printf("--worker nums:%d, pid:%d\n", i, worker[i]);
-	printf("check pid : %d\n", getpid());
+	printf("--master pid : %d\n", getpid());
     
     int i, status;
     pid_t pid;
@@ -131,7 +131,7 @@ static void master_check_and_restart(lis_inf_t *infs, int lis_num) {
                     perror("fork failed!");
                     exit(1);
                 } else if (pid == 0) {
-
+                    cpu_bind(i);
 					start_server(infs, lis_num);
                     
                 } else {
