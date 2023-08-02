@@ -25,10 +25,11 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#define TIMER_EVENT_MAX_NUM 10240
+#define TIMER_EVENT_MAX_NUM 1024*256
 
 typedef struct timer_event_t {
     time_t timeout;
+    int  flag;   // 1:del
     void (*callback)();
 } timer_event_t;
 
@@ -40,12 +41,12 @@ typedef struct timer_min_heap_t {
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-    static void             min_heap_push(timer_min_heap_t *heap, timer_event_t *event);
-    static timer_event_t*   min_heap_top(timer_min_heap_t *heap);
-    static void             min_heap_pop(timer_min_heap_t *heap);
-    void                    handle_events(timer_min_heap_t *heap);
-    void                    add_timer(timer_min_heap_t *heap, int timeout, void (*callback)());
+    extern void             timer_init();
+    static void             min_heap_push(timer_event_t *event);
+    static timer_event_t*   min_heap_top();
+    static void             min_heap_pop();
+    void                    handle_events();
+    void                    add_timer(int timeout, void (*callback)(), timer_event_t* event );
     extern int              test_timer();
 
 #ifdef __cplusplus

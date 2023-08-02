@@ -18,8 +18,10 @@
 
 #include <dm_timer.h>
 
+static timer_min_heap_t *heap;
 
-static void min_heap_push(timer_min_heap_t *heap, timer_event_t *event) {
+
+static void min_heap_push( timer_event_t *event) {
     int i = heap->size++;
     while (i > 0) {
         int p = (i - 1) / 2;
@@ -30,11 +32,11 @@ static void min_heap_push(timer_min_heap_t *heap, timer_event_t *event) {
     heap->events[i] = event;
 }
 
-static timer_event_t* min_heap_top(timer_min_heap_t *heap) {
+static timer_event_t* min_heap_top() {
     return heap->events[0];
 }
 
-static void min_heap_pop(timer_min_heap_t *heap) {
+static void min_heap_pop() {
     timer_event_t *event = heap->events[--heap->size];
     int i = 0;
     while (i * 2 + 1 < heap->size) {
@@ -47,23 +49,37 @@ static void min_heap_pop(timer_min_heap_t *heap) {
     heap->events[i] = event;
 }
 
-void handle_events(timer_min_heap_t *heap) {
+void handle_events() {
     time_t current_time = time(NULL);
-    while (heap->size > 0 && heap->events[0]->timeout <= current_time) {
-        timer_event_t *event = min_heap_top(heap);
-        min_heap_pop(heap);
-        event->callback();
-        free(event);
+    timer_event_t *event;
+    while( heap->size>0 ) {
+        if(heap->size > 4096*128) printf("error");
+        if (heap->events[0]->flag == 1 ) {  // flag
+            event = min_heap_top(heap);
+            min_heap_pop(heap);
+            free(event);
+        } else if( heap->events[0]->flag == 0 && heap->events[0]->timeout <= current_time ){
+            event = min_heap_top(heap);
+            min_heap_pop(heap);
+            event->callback();
+            free(event);   
+        } else {    // haven't time out
+            break;
+        }
     }
 }
 
-void add_timer(timer_min_heap_t *heap, int timeout, void (*callback)()) {
-    timer_event_t *event = (timer_event_t *)malloc(sizeof(timer_event_t));
+void add_timer( int timeout, void (*callback)(), timer_event_t* event) {
     event->timeout = time(NULL) + timeout;
     event->callback = callback;
-    min_heap_push(heap, event);
+    min_heap_push(event);
 }
 
+
+void timer_init() {
+    heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
+	heap->size = 0;
+}
 
 
 /* test function start*/
@@ -73,15 +89,17 @@ static void print_current_time() {
 }
 
 extern int test_timer() {
-    timer_min_heap_t heap = { .size = 0 };
-    for(int i=0; i<1000; i++) {
-        add_timer(&heap, 15, print_current_time);
-        add_timer(&heap, 10, print_current_time);
-        add_timer(&heap, 15, print_current_time);
+    timer_init();
+
+    for(int i=0; i<20; i++) {
+        timer_event_t *event = (timer_event_t *)malloc(sizeof(timer_event_t));
+        event->flag = 1;
+        add_timer(5, print_current_time, event);
     }
 
     while (true) {
-        handle_events(&heap);
+        printf("handle events...\n");
+        handle_events();
         sleep(1);
     }
     return 0;
