@@ -25,7 +25,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#define TIMER_EVENT_MAX_NUM 1024*256
+#define TIMER_EVENT_MAX_NUM 1024
 
 typedef struct timer_event_t {
     time_t timeout;
@@ -34,8 +34,9 @@ typedef struct timer_event_t {
 } timer_event_t;
 
 typedef struct timer_min_heap_t {
-    timer_event_t *events[ TIMER_EVENT_MAX_NUM ];
-    int size;
+    timer_event_t ** events;
+    int                 size;
+    int                 c;
 } timer_min_heap_t;
 
 #ifdef __cplusplus

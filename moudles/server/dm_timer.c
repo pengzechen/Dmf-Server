@@ -70,6 +70,17 @@ void handle_events() {
 }
 
 void add_timer( int timeout, void (*callback)(), timer_event_t* event) {
+    if (heap->c == heap->size) { //如果容量满了，扩充2倍
+        heap->c = 2 * heap->c;
+        timer_event_t** B = (timer_event_t**)malloc(sizeof(timer_event_t*)*heap->c); 
+        for (int i = 0; i < heap->size; ++i) {
+            B[i] = heap->events[i];
+        }
+        printf("extented!\n");
+        free(heap->events);
+        heap->events = B;
+    }
+
     event->timeout = time(NULL) + timeout;
     event->callback = callback;
     min_heap_push(event);
@@ -78,7 +89,9 @@ void add_timer( int timeout, void (*callback)(), timer_event_t* event) {
 
 void timer_init() {
     heap = (timer_min_heap_t*)malloc(sizeof(timer_min_heap_t));
-	heap->size = 0;
+    heap->size = 0;
+    heap->c = TIMER_EVENT_MAX_NUM;
+    heap->events = (timer_event_t**)malloc(sizeof(timer_event_t*)*heap->c);
 }
 
 
