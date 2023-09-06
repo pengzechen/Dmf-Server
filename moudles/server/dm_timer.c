@@ -53,7 +53,6 @@ void handle_events() {
     time_t current_time = time(NULL);
     timer_event_t *event;
     while( heap->size>0 ) {
-        if(heap->size > 4096*128) printf("error");
         if (heap->events[0]->flag == 1 ) {  // flag
             event = min_heap_top(heap);
             min_heap_pop(heap);
@@ -69,7 +68,7 @@ void handle_events() {
     }
 }
 
-void add_timer( int timeout, void (*callback)(), timer_event_t* event) {
+void add_timer( time_t timeout, void (*callback)(), timer_event_t* event) {
     if (heap->c == heap->size) { //如果容量满了，扩充2倍
         heap->c = 2 * heap->c;
         timer_event_t** B = (timer_event_t**)malloc(sizeof(timer_event_t*)*heap->c); 

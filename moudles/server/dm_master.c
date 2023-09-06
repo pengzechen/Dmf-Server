@@ -136,7 +136,7 @@ static void master_check_and_restart(lis_inf_t *infs, int lis_num) {
                     
                 } else {
                     // father
-                    printf("[warn: ]Worker %d has been down, ", worker[i]);
+                    printf("[warn:]Worker %d has been down, status: %d, ", worker[i], status);
                     worker[i] = pid;
                     printf("Start new worker %d \n", pid);
                 }

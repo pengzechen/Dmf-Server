@@ -51,6 +51,8 @@ Node* createNode(int key) {
     return newNode;
 }
 
+
+
 void leftRotate(Node **root, Node *x) {
     Node *y = x->right;
     x->right = y->left;
@@ -90,6 +92,8 @@ void rightRotate(Node **root, Node *y) {
     x->right = y;
     y->parent = x;
 }
+
+
 
 void fixInsert(Node **root, Node *z) {
     while (z != *root && z->parent->color == RED) {
@@ -158,30 +162,7 @@ void insertNode(Node **root, int key) {
     fixInsert(root, z);
 }
 
-void inorderTraversal(Node *root) {
-    if (root == NULL)
-        return;
 
-    inorderTraversal(root->left);
-    printf("%d ", root->key);
-    inorderTraversal(root->right);
-}
-
-Node* searchNode(Node* root, int key) {
-    if (root == NULL || root->key == key)
-        return root;
-
-    if (key < root->key)
-        return searchNode(root->left, key);
-    else
-        return searchNode(root->right, key);
-}
-
-Node* getMinimumNode(Node* node) {
-    while (node->left != NULL)
-        node = node->left;
-    return node;
-}
 
 void fixDelete(Node **root, Node *x) {
     while (x != *root && (x == NULL || x->color == BLACK)) {
@@ -245,6 +226,18 @@ void fixDelete(Node **root, Node *x) {
         x->color = BLACK;
 }
 
+void transplant(Node **root, Node *u, Node *v) {
+    if (u->parent == NULL)
+        *root = v;
+    else if (u == u->parent->left)
+        u->parent->left = v;
+    else
+        u->parent->right = v;
+
+    if (v != NULL)
+        v->parent = u->parent;
+}
+
 void deleteNode(Node **root, int key) {
     Node *z = searchNode(*root, key);
     if (z == NULL)
@@ -283,17 +276,36 @@ void deleteNode(Node **root, int key) {
     free(z);
 }
 
-void transplant(Node **root, Node *u, Node *v) {
-    if (u->parent == NULL)
-        *root = v;
-    else if (u == u->parent->left)
-        u->parent->left = v;
-    else
-        u->parent->right = v;
 
-    if (v != NULL)
-        v->parent = u->parent;
+
+
+void inorderTraversal(Node *root) {
+    if (root == NULL)
+        return;
+
+    inorderTraversal(root->left);
+    printf("%d ", root->key);
+    inorderTraversal(root->right);
 }
+
+Node* searchNode(Node* root, int key) {
+    if (root == NULL || root->key == key)
+        return root;
+
+    if (key < root->key)
+        return searchNode(root->left, key);
+    else
+        return searchNode(root->right, key);
+}
+
+Node* getMinimumNode(Node* node) {
+    while (node->left != NULL)
+        node = node->left;
+    return node;
+}
+
+
+
 
 void testRedBlackTree() {
     Node *root = NULL;

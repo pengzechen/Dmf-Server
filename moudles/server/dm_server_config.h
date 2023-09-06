@@ -57,7 +57,7 @@ typedef struct _listen_info_s {
 
 #define SERVER_DEBUG
 
-#define WORKER_NUM 40
+#define WORKER_NUM 56
 
 #define SERVER_MAX_LISTEN_NUM 10
 

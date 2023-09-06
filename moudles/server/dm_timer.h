@@ -25,7 +25,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#define TIMER_EVENT_MAX_NUM 1024
+#define TIMER_EVENT_MAX_NUM 4096*128
 
 typedef struct timer_event_t {
     time_t timeout;
@@ -47,7 +47,7 @@ extern "C" {
     static timer_event_t*   min_heap_top();
     static void             min_heap_pop();
     void                    handle_events();
-    void                    add_timer(int timeout, void (*callback)(), timer_event_t* event );
+    void                    add_timer(time_t timeout, void (*callback)(), timer_event_t* event );
     extern int              test_timer();
 
 #ifdef __cplusplus

@@ -36,6 +36,10 @@ typedef struct test_t {
     char b;
 } test_t ;
 
+// ulimit -c unlimited    -c
+
+// dmesg -T
+
 int main(int arg, char* args[]) {
 /*
     // type compare

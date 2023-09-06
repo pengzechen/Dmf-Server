@@ -180,14 +180,23 @@ static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 		// ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
 		
 		
-		req_t* req = (req_t*)malloc(sizeof(req_t)) ;
+		req_t* req = (req_t*)malloc(sizeof(req_t));
+		if(req == NULL) {
+			printf("%s, %s, %d: malloc error\n", __FILE__, __func__, __LINE__);
+
+		}
 		memset(req, 0, sizeof(req_t));
         req->fd = clifd;
 		req->type = HTTP;
 		req->sd = sd;
 		req->sd->accept_num ++;
+
 		req->timer_event = (timer_event_t *)malloc(sizeof(timer_event_t));		// timer free 
-		add_timer(60, print_current_time, req->timer_event);
+		if(req->timer_event == NULL) {
+			printf("%s, %s, %d: malloc error\n", __FILE__, __func__, __LINE__);
+			
+		}
+		add_timer(10, print_current_time, req->timer_event);
 
 
 		ev.data.ptr = (void*)req;
@@ -382,6 +391,7 @@ static void event_http_read(void* data, int client_fd, int epoll_fd) {
 				break;
 			}else{
 				if(errno == ECONNRESET) {	// connection reset by peer
+					req->sd->read_num ++;
 					perror("peer reset");
 					handle_close(data, client_fd, epoll_fd);
 				} else {
