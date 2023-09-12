@@ -67,7 +67,6 @@ void* server_make(void* arg) {
 	uint32_t tempev;
 	req_t* req_data = NULL;
 
-	timer_init();
 	shm_data_t* sd = create_get_shm(66666);
 
 	for(;;) {
@@ -83,7 +82,6 @@ void* server_make(void* arg) {
 			req_data = (req_t*)evs[i].data.ptr;
 			tempfd = req_data->fd;
 
-
 			if ( tempfd <= lis_num ) {
 				handle_accept(lis_infs[tempfd], epoll_fd, sd);
 			} else if( tempev & EPOLLIN ) {
@@ -97,7 +95,8 @@ void* server_make(void* arg) {
 				printf("unknow events\n");
 			}
 		}
-		handle_events();	// handle timer events
+		
+		executeTimers();	// handle timer events
 	}
 
 	for(int k=0; k<lis_num; k++)

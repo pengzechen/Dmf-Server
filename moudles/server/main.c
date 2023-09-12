@@ -40,6 +40,10 @@ typedef struct test_t {
 
 // dmesg -T
 
+// sysctl -w net.core.somaxconn=32768
+// sysctl -w net.ipv4.tcp_max_syn_backlog=65535
+// sysctl -p
+
 int main(int arg, char* args[]) {
 /*
     // type compare

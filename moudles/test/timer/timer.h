@@ -16,29 +16,36 @@
     *
     */
 
-
 #ifndef __DM_TIMER_INCLUDE__
 #define __DM_TIMER_INCLUDE__
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <unistd.h>
+#include <stdbool.h>
 
-typedef struct Timer Timer;
 
-struct Timer {
-    time_t expire;
+
+// 以下是定时器的示例代码
+typedef struct Event {
+    time_t timeout;
     void (*callback)();
-    Timer* next;
-};
+} Event;
+
+typedef struct MinHeap {
+    Event *events[1024];
+    int size;
+} MinHeap;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-    void heapify();
-    void addTimer(time_t expire, void (*callback)());
-    void executeTimers();
+    static void min_heap_push(MinHeap *heap, Event *event);
+    static Event* min_heap_top(MinHeap *heap);
+    static void min_heap_pop(MinHeap *heap);
+    void handle_events(MinHeap *heap);
+    void add_timer(MinHeap *heap, int timeout, void (*callback)());
+    
 
 #ifdef __cplusplus
 }           /* end of the 'extern "C"' block */

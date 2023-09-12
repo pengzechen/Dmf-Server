@@ -36,6 +36,16 @@ static char 	* https_response  = "HTTP/1.1 200 OK\r\n"
 									"Connection: keep-alive\r\n\r\n";
 #endif // SERVER_DEBUG
 
+static int ss_time;
+
+/* test function start*/
+static void print_current_time() {
+    time_t current_time = time(NULL);
+    // printf("Current time: %s\n", ctime(&current_time));
+	// printf("%d\n", ss_time);
+	ss_time++;
+}
+
 
 extern void events_ssl_init()
 {
@@ -133,7 +143,12 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 	if( close(client_fd) == -1)
 		perror("client close error");
 
-	req->timer_event->flag = 1;
+	// if( req->timer == TIMER_YES) {
+	// 	req->timer_event->flag = 1;
+	// } else {
+	// 	printf("free before there\n");
+	// }
+	
 	req->sd->close_num ++;
 
 	free(req->data);
@@ -145,15 +160,9 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 	free(req);
 	
 }
-static int ss_time;
 
-/* test function start*/
-static void print_current_time() {
-    time_t current_time = time(NULL);
-    // printf("Current time: %s", ctime(&current_time));
-	// printf("%d\n", ss_time++);
-	ss_time++;
-}
+
+
 
 static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 	struct sockaddr_in cliaddr;
@@ -191,12 +200,8 @@ static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 		req->sd = sd;
 		req->sd->accept_num ++;
 
-		req->timer_event = (timer_event_t *)malloc(sizeof(timer_event_t));		// timer free 
-		if(req->timer_event == NULL) {
-			printf("%s, %s, %d: malloc error\n", __FILE__, __func__, __LINE__);
-			
-		}
-		add_timer(10, print_current_time, req->timer_event);
+		req->timer_event = NULL;
+		addTimer(10, print_current_time);
 
 
 		ev.data.ptr = (void*)req;
@@ -407,8 +412,8 @@ static void event_http_read(void* data, int client_fd, int epoll_fd) {
 	}
 	req->sd->read_num ++;
 	
-	if(strcmp(read_buf, "debug\n") == 0) {
-		printf("--Accept: %d\n--Read: %d\n--Write: %d\n--Close: %d\n", 
+	if(strcmp(read_buf, "\n") == 0) {
+		printf("--Accept: %d\n--Read  : %d\n--Write : %d\n--Close : %d\n", 
 			req->sd->accept_num-1, req->sd->read_num-1, req->sd->write_num, req->sd->close_num);
 	}
 

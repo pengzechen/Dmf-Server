@@ -34,6 +34,8 @@ typedef enum _lis_type_s {
     TCP_PROXY,
 } lis_type_t;
 
+#define TIMER_YES 'Y'
+#define TIMER_NO  'N'
 
 typedef struct _req_t {
     int                         fd;
@@ -41,9 +43,12 @@ typedef struct _req_t {
     void                  *     data;
     SSL                   *		ssl;
     shm_data_t            *     sd;
-    timer_event_t         *     timer_event;
+    Timer                 *     timer_event;
+    char                        timer;
 } req_t;
 
+
+#define container_of(ptr, type, member) (type *) ((u_char *) (ptr) - offsetof(type, member))
 
 typedef struct _listen_info_s {
 	char                        ip[64];
@@ -57,7 +62,7 @@ typedef struct _listen_info_s {
 
 #define SERVER_DEBUG
 
-#define WORKER_NUM 56
+#define WORKER_NUM 40
 
 #define SERVER_MAX_LISTEN_NUM 10
 

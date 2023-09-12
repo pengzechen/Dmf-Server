@@ -16,7 +16,6 @@
     *
     */
 
-
 #ifndef __DM_TIMER_INCLUDE__
 #define __DM_TIMER_INCLUDE__
 
