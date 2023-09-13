@@ -78,6 +78,8 @@ int main(int arg, char* args[]) {
     
     events_ssl_init();
 
+    ulimit();
+
     struct sigaction sa;
     sa.sa_handler = SIG_IGN;
     sigaction(SIGALRM, &sa, 0);

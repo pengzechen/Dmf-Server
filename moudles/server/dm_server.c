@@ -44,7 +44,7 @@ void* server_make(void* arg) {
 	if( set_non_blocking(epoll_fd) == -1) {
 		perror("epoll set non blocking ");
 	}
-#endif // EPOLL_FD_NON_shm_data_t* sd = create_get_shm(1234);BLOCKING
+#endif // EPOLL_FD_NON_BLOCKING
 
 	// event.data.ptr
 

@@ -23,12 +23,14 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <sys/resource.h>
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
+extern int ulimit();
 extern void cpu_init();
 extern void cpu_bind(int i);
 

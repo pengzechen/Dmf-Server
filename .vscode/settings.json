@@ -30,7 +30,8 @@
         "x509.h": "c",
         "dm_bind_cpu.h": "c",
         "typeinfo": "c",
-        "dm_shm.h": "c"
+        "dm_shm.h": "c",
+        "resource.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "cmake.sourceDirectory": "/home/pzc/Dmf/Dmf-Server/moudles/server"

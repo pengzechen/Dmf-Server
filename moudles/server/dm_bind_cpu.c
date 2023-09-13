@@ -24,6 +24,29 @@ void cpu_init() {
     cpu_processer = sysconf(_SC_NPROCESSORS_CONF);
 }
 
+
+int ulimit() {
+    struct rlimit rlim;
+
+    if (getrlimit(RLIMIT_NOFILE, &rlim) == -1) {
+        perror("getrlimit");
+        return 1;
+    }
+
+    printf("当前文件描述符限制: soft=%ld, hard=%ld\n", rlim.rlim_cur, rlim.rlim_max);
+    rlim.rlim_cur = 20000; // 设置soft限制
+    rlim.rlim_max = 20000; // 设置hard限制
+
+    if (setrlimit(RLIMIT_NOFILE, &rlim) == -1) {
+        perror("setrlimit");
+        return 1;
+    }
+
+    printf("新文件描述符限制: soft=%ld, hard=%ld\n", rlim.rlim_cur, rlim.rlim_max);
+    return 0;
+}
+
+
 void cpu_bind(int i) {
     cpu_set_t mask;
     cpu_set_t get;
