@@ -39,11 +39,9 @@ static char 	* https_response  = "HTTP/1.1 200 OK\r\n"
 static int ss_time;
 
 /* test function start*/
-static void print_current_time() {
-    time_t current_time = time(NULL);
-    // printf("Current time: %s\n", ctime(&current_time));
-	// printf("%d\n", ss_time);
-	ss_time++;
+static void handle_timeout() {
+    // time_t current_time = time(NULL);
+    // printf("%d, Current time: %s", ss_time++, ctime(&current_time));
 }
 
 
@@ -94,9 +92,10 @@ void handle_accept (lis_inf_t lis_infs, int epoll_fd, shm_data_t* sd) {
 	}
 }
 
-void handle_read (void* data, int client_fd, int epoll_fd) {
+void handle_read (void* data) {
 	req_t* req = (req_t*)data;
-
+	int client_fd = req->fd;
+	int epoll_fd = req->efd;
 	switch(req->type) {
 		case HTTP:
 			event_http_read(data, client_fd, epoll_fd);
@@ -116,13 +115,14 @@ void handle_read (void* data, int client_fd, int epoll_fd) {
 	
 }
 
-void handle_write (void* data, int client_fd, int epoll_fd) {
+void handle_write (void* data) {
 	req_t* req = (req_t*)data;
-
+	int client_fd = req->fd;
+	int epoll_fd = req->efd;
 	switch(req->type) {
 		case HTTP:
 			event_http_write(data, client_fd, epoll_fd);
-			handle_close(data, client_fd, epoll_fd);
+			handle_close(data);
 			break;
 		case HTTPS:
 			break;
@@ -133,23 +133,19 @@ void handle_write (void* data, int client_fd, int epoll_fd) {
 
 }
 
-void handle_close (void* data, int client_fd, int epoll_fd) {
+void handle_close (void* data) {
 	req_t* req = (req_t*)data;
-	// int client_fd = per_req_cli->fd;
+	int client_fd = req->fd;
+	int epoll_fd = req->efd;
 
 	if( epoll_ctl(epoll_fd, EPOLL_CTL_DEL, client_fd, NULL) == -1)
 		perror("epoll del error");
 
 	if( close(client_fd) == -1)
 		perror("client close error");
-
-	// if( req->timer == TIMER_YES) {
-	// 	req->timer_event->flag = 1;
-	// } else {
-	// 	printf("free before there\n");
-	// }
 	
 	req->sd->close_num ++;
+	deleteTimer(&req->timer_event);
 
 	free(req->data);
 	if(req->ssl != NULL) {
@@ -162,24 +158,14 @@ void handle_close (void* data, int client_fd, int epoll_fd) {
 }
 
 
-
-
 static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 	struct sockaddr_in cliaddr;
 	int socklen = sizeof(cliaddr);
 	struct epoll_event ev;
 	int clifd;
 		// serfd is nonblocking
-	while(1) {
-		// if(sd->accept_mutex < 40){
-			// sd->accept_mutex ++;
-			clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen);
-			// sd->accept_mutex --;
-		// } else {
-			// return;
-		// }
-		if (clifd <= 0)	break;
-	
+	while ( (clifd = accept(serfd, (struct sockaddr*)&cliaddr, &socklen)) > 0) {
+
 		if(set_non_blocking(clifd) == -1) {
 			perror("set_non_blocking2");
 			return;
@@ -188,21 +174,20 @@ static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd ) {
 		ev.events = EPOLLIN | EPOLLET ;
 		// ev.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
 		
-		
 		req_t* req = (req_t*)malloc(sizeof(req_t));
+
 		if(req == NULL) {
 			printf("%s, %s, %d: malloc error\n", __FILE__, __func__, __LINE__);
-
 		}
 		memset(req, 0, sizeof(req_t));
         req->fd = clifd;
+		req->efd = epoll_fd;
+
 		req->type = HTTP;
 		req->sd = sd;
 		req->sd->accept_num ++;
 
-		req->timer_event = NULL;
-		addTimer(10, print_current_time);
-
+		addTimer(&req->timer_event, 30, handle_timeout);
 
 		ev.data.ptr = (void*)req;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
@@ -379,7 +364,6 @@ static void event_accept_https1 ( int serfd, int epoll_fd ) {
 }
 
 
-
 static void event_http_read(void* data, int client_fd, int epoll_fd) {
 	req_t* req = (req_t*)data;
 
@@ -397,15 +381,15 @@ static void event_http_read(void* data, int client_fd, int epoll_fd) {
 			}else{
 				if(errno == ECONNRESET) {	// connection reset by peer
 					req->sd->read_num ++;
-					perror("peer reset");
-					handle_close(data, client_fd, epoll_fd);
+					// perror("peer reset");
+					handle_close(data);
 				} else {
 					perror("unknow read error");
 				}
 				return;
 			}
 		}else if(bytes_read == 0) {		// client close socket
-			handle_close(data, client_fd, epoll_fd);
+			handle_close(data);
 			return;
 		}
 		total_read += bytes_read;
@@ -461,9 +445,8 @@ static void event_http_write(void* data, int client_fd, int epoll_fd) {
 static void event_http_read_write(void* data, int client_fd, int epoll_fd) {
 	event_http_read(data, client_fd, epoll_fd);
 	event_http_write(data, client_fd, epoll_fd);
-	handle_close(data, client_fd, epoll_fd);
+	handle_close(data);
 }
-
 
 
 static void event_https_read(void* data, int client_fd, int epoll_fd) {
@@ -520,8 +503,6 @@ static void handle_https_read_write(void* data, int client_fd, int epoll_fd) {
 }
 
 
-
-
 // SHUT_RD close read
 // SHUT_WR close write
 // SHUT_RDWR both
@@ -532,7 +513,6 @@ static void handle_shutdown (int client_fd, int epoll_fd, int how) {
 	if( shutdown(client_fd, how) == -1)
 		perror("client shutdowm error");
 }
-
 
 static void event_http_reverse(void* data, int client_fd, int epoll_fd) {
 	// Fast-Https receive data "A" from Client
@@ -549,7 +529,7 @@ static void event_http_reverse(void* data, int client_fd, int epoll_fd) {
 				return;
 			}
 		}else if(bytes_read == 0) {		// client close socket
-			handle_close(data, client_fd, epoll_fd);
+			handle_close(data);
 			return;
 		}
 		total_read += bytes_read;
@@ -590,9 +570,8 @@ static void event_http_reverse(void* data, int client_fd, int epoll_fd) {
 		n -= nwrite;
 	}
 
-	handle_close(data, client_fd, epoll_fd);
+	handle_close(data);
 }
-
 
 static void event_https_reverse(void* data, int client_fd, int epoll_fd) {
 	req_t* req = (req_t*)data;

@@ -28,16 +28,17 @@
 typedef struct Timer Timer;
 
 struct Timer {
-    time_t expire;
-    void (*callback)();
-    Timer* next;
+    time_t          expire;
+    void            (*callback)();
+    Timer*          next;
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
     void heapify();
-    void addTimer(time_t expire, void (*callback)());
+    void addTimer(Timer* newTimer, int expire, void (*callback)());
+    void deleteTimer(Timer* target);
     void executeTimers();
 
 #ifdef __cplusplus

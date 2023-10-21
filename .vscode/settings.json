@@ -34,5 +34,5 @@
         "resource.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
-    "cmake.sourceDirectory": "/home/pzc/Dmf/Dmf-Server/moudles/server"
+    "cmake.sourceDirectory": "/home/ajax/Dmf/Dmf-server/moudles/server"
 }

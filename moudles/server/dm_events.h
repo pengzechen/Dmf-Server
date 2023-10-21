@@ -43,9 +43,9 @@ extern "C" {
 extern void events_ssl_init();
 
 extern void handle_accept (lis_inf_t lis_infs, int epoll_fd, shm_data_t* sd);
-extern void handle_read (void*, int client_fd, int epoll_fd);
-extern void handle_write (void* data, int client_fd, int epoll_fd);
-extern void handle_close (void*, int client_fd, int epoll_fd);
+extern void handle_read (void* data);
+extern void handle_write (void* data);
+extern void handle_close (void* data);
 static void handle_shutdown (int client_fd, int epoll_fd, int how);
 
 

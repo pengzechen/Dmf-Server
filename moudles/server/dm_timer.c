@@ -21,7 +21,7 @@
 #include <string.h>
 
 
-Timer* heap = NULL;
+static Timer* heap = NULL;
 
 void heapify() {
     Timer* parent = heap;
@@ -40,11 +40,40 @@ void heapify() {
     }
 }
 
-void addTimer(time_t expire, void (*callback)()) {
-    Timer* newTimer = (Timer*)malloc(sizeof(Timer));
-    newTimer->expire = time(NULL) +  expire;
+
+void deleteTimer(Timer* target) {
+    if (heap == NULL || target == NULL) {
+        return;
+    }
+
+    if (heap == target) {
+        Timer* temp = heap;
+        heap = heap->next;
+        return;
+    }
+
+    Timer* parent = heap;
+    Timer* current = heap->next;
+    while (current != NULL && current != target) {
+        parent = current;
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        return;
+    }
+    parent->next = current->next;
+
+    heapify();
+}
+
+
+
+void addTimer(Timer* newTimer, int expire, void (*callback) ()) {
+
     newTimer->callback = callback;
-    newTimer->next = NULL;
+	newTimer->expire = time(NULL) + expire;
+	newTimer->next = NULL;
 
     if (heap == NULL) {
         heap = newTimer;
@@ -61,10 +90,17 @@ void addTimer(time_t expire, void (*callback)()) {
 
 void executeTimers() {
     time_t now = time(NULL);
+    req_t* req = NULL;
+    Timer* timer;
+
     while (heap != NULL && heap->expire <= now) {
-        Timer* timer = heap;
+        timer = heap;
         heap = heap->next;
-        // timer->callback();
-        free(timer);
+        
+        req = container_of(timer, req_t, timer_event);
+
+        req->timer_event.callback();
+        
+        timer = NULL;
     }
 }

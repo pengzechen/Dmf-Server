@@ -39,16 +39,18 @@ typedef enum _lis_type_s {
 
 typedef struct _req_t {
     int                         fd;
+    int                         efd;
     lis_type_t                  type;
     void                  *     data;
     SSL                   *		ssl;
     shm_data_t            *     sd;
-    Timer                 *     timer_event;
+    
+    Timer                       timer_event;
     char                        timer;
 } req_t;
 
 
-#define container_of(ptr, type, member) (type *) ((u_char *) (ptr) - offsetof(type, member))
+#define container_of(ptr, type, member) (type *) ((unsigned char *) (ptr) - offsetof(type, member))
 
 typedef struct _listen_info_s {
 	char                        ip[64];
@@ -62,7 +64,7 @@ typedef struct _listen_info_s {
 
 #define SERVER_DEBUG
 
-#define WORKER_NUM 40
+#define WORKER_NUM 56
 
 #define SERVER_MAX_LISTEN_NUM 10
 
