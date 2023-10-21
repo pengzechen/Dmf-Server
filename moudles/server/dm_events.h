@@ -49,10 +49,8 @@ extern void handle_close (void* data);
 static void handle_shutdown (int client_fd, int epoll_fd, int how);
 
 
-static void event_accept_http ( int serfd, int epoll_fd, shm_data_t* sd );
-static void event_accept_http1 ( int serfd, int epoll_fd );
-static void event_accept_https ( int serfd, int epoll_fd );
-static void event_accept_https1 ( int serfd, int epoll_fd );
+static void event_accept_http ( lis_type_t type, int serfd, int epoll_fd, shm_data_t* sd );
+static void event_accept_https ( lis_type_t type, int serfd, int epoll_fd );
 
 
 static void event_http_read(void* data, int client_fd, int epoll_fd) ;

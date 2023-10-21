@@ -57,11 +57,10 @@ void master_daemonize() {
     } else if (master > 0) {
 
         // father exit
-		printf("%d\n", master);
         exit(0);
     }
     
-    printf("--daemon running  PID: %d\n", master);
+    printf("--daemon running  PID: %d\n", getpid());
 
     if (setsid() < 0) {
         perror("setsid"); exit(1);
@@ -107,8 +106,10 @@ extern void master_start_multi_process_server(lis_inf_t *infs, int lis_num) {
 // haven't add cpu bind 7.28
 static void master_check_and_restart(lis_inf_t *infs, int lis_num) {
     sleep(1);
-    for(int i=0; i < WORKER_NUM; i++)
-		printf("--worker nums:%d, pid:%d\n", i, worker[i]);
+    // for(int i=0; i < WORKER_NUM; i++)
+	// 	printf("--worker nums:%d, pid:%d\n", i, worker[i]);
+    
+    printf("--worker num : %d\n", WORKER_NUM);
 	printf("--master pid : %d\n", getpid());
     
     int i, status;

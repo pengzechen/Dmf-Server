@@ -33,7 +33,7 @@ int ulimit() {
         return 1;
     }
 
-    printf("当前文件描述符限制: soft=%ld, hard=%ld\n", rlim.rlim_cur, rlim.rlim_max);
+    // printf("soft=%ld, hard=%ld\n", rlim.rlim_cur, rlim.rlim_max);
     rlim.rlim_cur = 20000; // 设置soft限制
     rlim.rlim_max = 20000; // 设置hard限制
 
@@ -42,7 +42,7 @@ int ulimit() {
         return 1;
     }
 
-    printf("新文件描述符限制: soft=%ld, hard=%ld\n", rlim.rlim_cur, rlim.rlim_max);
+    printf("soft=%ld, hard=%ld\n", rlim.rlim_cur, rlim.rlim_max);
     return 0;
 }
 
@@ -50,7 +50,7 @@ int ulimit() {
 void cpu_bind(int i) {
     cpu_set_t mask;
     cpu_set_t get;
-    printf("worker: %d, bind cpu: %d\n", i, i);
+    // printf("worker: %d, bind cpu: %d\n", i, i);
     CPU_ZERO(&mask);
     CPU_SET(i,&mask);
     if(sched_setaffinity(0,sizeof(cpu_set_t),&mask) == -1)

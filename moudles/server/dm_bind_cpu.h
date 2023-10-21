@@ -39,5 +39,21 @@ extern void cpu_bind(int i);
 }		/* end of the 'extern "C"' block */
 #endif
 
+// int sc_nprocessor_conf = sysconf(_SC_NPROCESSORS_CONF);
+// int sc_nprocessor_onln = sysconf(_SC_NPROCESSORS_ONLN);
+// printf("sc_nprocessor_conf[%d]\n", sc_nprocessor_conf);
+// printf("sc_nprocessor_onln[%d]\n", sc_nprocessor_onln);
+
+// int a = 0;
+// cpu_set_t mask;// cpu核的集合
+// cpu_set_t get;// 获取在集合中的cpu
+// printf("this is: %d\n",a);// 打印这是第几个线程
+// CPU_ZERO(&mask);// 将集合置为空集
+// CPU_SET(a,&mask);// 设置亲和力值
+
+// if(sched_setaffinity(0,sizeof(cpu_set_t),&mask)==-1)// 设置线程cpu亲和力
+// {
+//     printf("warning: could not set CPU affinity, continuing...\n");
+// }
 
 #endif  // __DM_BIND_CPU_INCLUDE__
