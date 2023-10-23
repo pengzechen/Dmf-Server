@@ -45,25 +45,21 @@ void deleteTimer(Timer* target) {
     if (heap == NULL || target == NULL) {
         return;
     }
-
     if (heap == target) {
         Timer* temp = heap;
         heap = heap->next;
         return;
     }
-
     Timer* parent = heap;
     Timer* current = heap->next;
     while (current != NULL && current != target) {
         parent = current;
         current = current->next;
     }
-
     if (current == NULL) {
         return;
     }
     parent->next = current->next;
-
     heapify();
 }
 
