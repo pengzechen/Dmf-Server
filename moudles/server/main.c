@@ -97,6 +97,8 @@ int main(int arg, char* args[]) {
         master_daemonize();
     
     master_start_multi_process_server(fds, ports_num);
+
+    // start_server(fds, ports_num);
 #endif
 
 	return 0;

@@ -19,7 +19,7 @@
 #include <dm_events.h>
 
 #ifdef SERVER_DEBUG
-static char send_buf[] = "HTTP/1.1 404 NotFound\r\nContent-type: text/html\r\nContent-length: 629\r\n\r\n"
+static char send_buf[] = "HTTP/1.1 200 OK\r\nContent-type: text/html\r\nContent-length: 629\r\nConnection: close\r\n\r\n"
 "qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
 "qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
 "qwertyuiopasdfghjklzxcvbnm123456789123456789123456789123456789\n"
@@ -187,7 +187,7 @@ static void event_accept_http (lis_type_t type, int serfd, int epoll_fd, shm_dat
 		req->sd = sd;
 		req->sd->accept_num ++;
 
-		addTimer(&req->timer_event, 30, handle_timeout);
+		//addTimer(&req->timer_event, 30, handle_timeout);
 
 		ev.data.ptr = (void*)req;
 		if( epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clifd, &ev) == -1) {
@@ -270,14 +270,14 @@ static void event_accept_https (lis_type_t type, int serfd, int epoll_fd ) {
 static void event_http_read(void* conn, int client_fd, int epoll_fd) {
 	req_t* req = (req_t*)conn;
 
-	char read_buf[512] = {0};
+	char read_buf[1024] = {0};
 	ssize_t total_read = 0;
 	ssize_t bytes_read;
 	struct epoll_event ev;
 
 	// serfd is nonblocking
 	while(1) {
-		bytes_read = read(client_fd, read_buf + total_read, 512 - total_read);
+		bytes_read = read(client_fd, read_buf + total_read, 1024 - total_read);
 		if(bytes_read == -1) {
 			if(errno == EAGAIN || errno == EWOULDBLOCK) {
 				break;
